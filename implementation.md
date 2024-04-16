@@ -16,13 +16,16 @@
 1. 適当な作業ディレクトリ内にクローンされる
 1. ファイルを編集する
 1. 左の「ソース管理」に変更点がリストアップされる
-1. 「+」を押してステージに上げる
+1. 「+」を押してステージに上げる（やめるときは「-」でステージから下ろす）
 1. commit文をかいてcommit、同期する
+1. 次の作業前に必ず同期すること！
 
 最初にディレクトリ内で設定が必要？
-git config --global user.name "riquri"
-git config --global user.email "mriky.25@gmail.com"
 
+```
+git config --global user.name "username"
+git config --global user.email "mail@address"
+```
 
 ## 基本的な処理の流れ
 
