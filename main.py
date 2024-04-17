@@ -14,9 +14,9 @@ if __name__ == "__main__":
 ╚██████╗███████╗██║ ╚═╝ ██║██║ ╚═╝ ██║      ╚██████╔╝███████╗██║ ╚████║
  ╚═════╝╚══════╝╚═╝     ╚═╝╚═╝     ╚═╝       ╚═════╝ ╚══════╝╚═╝  ╚═══╝
           
-          Cellular Environment Mimicking Model GENerator  ver 0.1
+          Cellular Environment Mimicking Model GENerator  ver 0.01
 
-                Takunori Yasuda, Rikuri Morita and Ryuhei Harada. (2024)
+                T. Yasuda, R. Morita, Y. Shigeta and R. Harada. (2024)
           
           """)
 
@@ -43,11 +43,16 @@ if __name__ == "__main__":
     # parse arguments
     args = parser.parse_args()
 
+
+    # No options are given, print help
     if args.command is None:
+        
         parser.print_help()
     else:
+        # Error in the options
         if utils.summarize_args(args) is False:
             exit(1)
+
         if args.command == "cylinder":
             parser_cylinder.print_help()
             ## call cylinder function
@@ -55,4 +60,7 @@ if __name__ == "__main__":
             parser_cylinder.print_help()
             ## call sphere function
 
+
+    print("Please cite the following paper when you use this software.")
+    print("T. Yasuda, R. Morita, Y. Shigeta and R. Harada. (2024) \"Cellular Environment Mimicking Model GENerator: A tool for generating a cellular environment mimicking model.\"")
     
