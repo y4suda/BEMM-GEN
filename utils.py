@@ -10,6 +10,12 @@ def orange_text(text: str):
     """
     return f"\033[93m{text}\033[0m"
 
+def green_text(text: str):
+    """
+    Return green colored text.
+    """
+    return f"\033[92m{text}\033[0m"
+
 def print_error(text: str):
     """
     Print error message.
@@ -23,6 +29,12 @@ def print_warning(text: str):
     """
     print(f"{orange_text('Warning')}: {text}")
 
+def print_info(text: str):
+    """
+    Print information message.
+    """
+    print(f"{green_text('INFO')}: {text}")
+
 def summarize_args(args):
     """
     Summarize arguments.
@@ -32,11 +44,13 @@ def summarize_args(args):
     if "command" in args:
         print(f"Model type:\t\t{args.command}")
     if "length" in args:
-        print(f"Length:\t\t{args.length} Å")
+        print(f"Length:\t\t{args.length:.2f} Å")
     if "radius" in args:
-        print(f"Radius:\t\t{args.radius} Å")
+        print(f"Radius:\t\t{args.radius:.2f} Å")
     if "min_distance" in args:
         print(f"Min. distance:\t{args.min_distance} Å")
+    
+    #この処理はmodel.pyに移動する
     if "resnames" in args and "composition" in args:
         num_resnames = len(args.resnames.split(":"))
         num_composition = len(args.composition.split(":"))
@@ -46,6 +60,8 @@ def summarize_args(args):
         else:
             print(f"Residue names:\t{args.resnames.split(':')}")
             print(f"Composition:\t{list(map(float, args.composition.split(':')))}")
+
+            
     if "outward" in args:
         print(f"Outward:\t{args.outward}")
     if "output_prefix" in args:
