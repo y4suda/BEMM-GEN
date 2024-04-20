@@ -1,4 +1,5 @@
 import argparse
+import numpy as np
 import subprocess
 
 from sklearn.decomposition import PCA
@@ -124,6 +125,18 @@ def _compute_protein_size(pdb_filename: str):
     utils.print_info(f"Major radius: {major_radius:.2f} Å, Minor radius: {minor_radius:.2f} Å.")
     return  major_radius, minor_radius
 
+def _compute_protein_axis(coords: np.ndarray):
+    pca = PCA(n_components=3)
+    pca.fit(coords)
+    coords_pca = pca.transform(coords)
+
+    # compute major and minor axis
+    major_axis = pca.components_[pca.explained_variance_ratio_.argmax()]
+    minor_axis = pca.components_[pca.explained_variance_ratio_.argmin()]
+
+    return  major_axis, minor_axis
+
+
 def _get_model_size(args: argparse.Namespace, major_radius: float, minor_radius: float):
     radius = None
     length = None
@@ -161,8 +174,16 @@ def _get_model_size(args: argparse.Namespace, major_radius: float, minor_radius:
     return radius, length
  
 
-def merge_protein(args: argparse.Namespace):
-    #proteinのrorationとtranslationを行う
+def centering_rotation_protein(args: argparse.Namespace):
+    #proteinのrotationとtranslationを行う
+    protein_coords = _load_protein_coordinates(args.proteinpdb)
+    protein_props = _load_protein_property(args.proteinpdb)
+    protein_coords = _centering_protein(protein_coords)
+    protein_coords = _rotate_protein(protein_coords, [0,0,1])
+
+    with open(args.proteinpdb, "w") as f:
+        for prop, coords in zip(protein_props, protein_coords):
+            f.write(f"{prop}{coords[0]:8.3f}{coords[1]:8.3f}{coords[2]:8.3f}\n")
     return None
 
 def _load_protein_coordinates(pdb_filename: str):
@@ -172,3 +193,37 @@ def _load_protein_coordinates(pdb_filename: str):
             if line.startswith("ATOM"):
                 coords.append([float(line[30:38]), float(line[38:46]), float(line[46:54])])
     return coords
+
+def _load_protein_property(pdb_filename: str):
+    prop = []
+    with open(pdb_filename, "r") as f:
+        for line in f:
+            if line.startswith("ATOM"):
+                prop.append(line[0:30])
+    return prop
+
+def _centering_protein(coords: list):
+    coords = np.array(coords)
+    center = coords.mean(axis=0)
+    return coords - center
+
+def _rotate_protein(coords: list, ref_axis: list):
+    coords = np.array(coords)
+    
+    major_axis, minor_axis = _compute_protein_axis(coords)
+    axis = np.cross(major_axis, ref_axis)
+    axis_length = np.linalg.norm(axis)
+    if axis_length == 0:
+        return coords
+    axis = axis/axis_length
+
+    angle = np.arccos(np.dot(major_axis, ref_axis) / (np.linalg.norm(major_axis) * np.linalg.norm(ref_axis)))
+
+    # Rodrigues' rotation formula
+    K = np.array([[0, -axis[2], axis[1]],
+                    [axis[2], 0, -axis[0]],
+                    [-axis[1], axis[0], 0]])
+    rotation_matrix = np.eye(3) + np.sin(angle) * K + (1 - np.cos(angle)) * np.dot(K, K)
+
+    rotated_coords = np.dot(coords, rotation_matrix.T)
+    return rotated_coords

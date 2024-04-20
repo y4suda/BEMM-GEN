@@ -73,7 +73,7 @@ if __name__ == "__main__":
             model.build_sphere(args)
         
         if args.proteinpdb is not None:
-            protein.merge_protein(args)
+            protein.centering_rotation_protein(args)
 
         utils.summarize_args(args)
         # convert.make_MD_input(args)
