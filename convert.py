@@ -80,12 +80,12 @@ def _restraint_amber(args: argparse.Namespace):
     model_resn = 0
     with open(args.proteinpdb, "r") as f:
         for line in f:
-            if line.startswith("ATOM") and "CA" in line[12:15]:
+            if line.startswith("ATOM") and (" C " in line[12:15] or "C1" in line[12:15]):
                 model_resn += 1
 
     restraint_force = [1000, 1000, 1000]
     print("\n------ amber_simulation.in ------")
-    print(f"ntr=1,\nrestraintmask=':1-{model_resn} & CA',\nrestraint_wt={restraint_force[0]}")
+    print(f"ntr=1,\nrestraintmask=':1-{model_resn} & C1',\nrestraint_wt={restraint_force[0]}")
     print("---------------------------------\n")
 
     return True
@@ -96,7 +96,7 @@ def _restraint_GROMACS(args: argparse.Namespace):
     restraint_resid = []
     with open(f"{args.output_prefix}.gro", "r") as f:
         for line in f:
-            if "CA" in line[10:15]:
+            if " C " in line[10:15] or "C1" in line[10:15]:
                 restraint_resid.append(int(line[15:20]))
 
     # write restraint.itp
