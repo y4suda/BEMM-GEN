@@ -43,7 +43,7 @@ if __name__ == "__main__":
         subparser.add_argument("--proteinSS", type=str, default=None, help="Secondary structure of the protein to be placed in the model.")
 
         subparser.add_argument("--forcefield-protein", type=str, default="ff14SB", help="Force field for the protein. (default: ff14SB)")
-        subparser.add_argument("--forcefield-res", type=str, default="gaff2", help="Force field for the residues. (default: gaff2)")
+        subparser.add_argument("--forcefield-model", type=str, default="gaff2", help="Force field for the residues. (default: gaff2)")
 
         subparser.add_argument("--min-distance", type=float, default=4.0, help="Minimum distance between two residues in angstrom. (default: 4.0)")
         subparser.add_argument("--resnames", type=str, default="BOC", help="Residue names to use connected by colon. Ex. \"BOC:BOH\" (default: BOC)")
@@ -76,7 +76,7 @@ if __name__ == "__main__":
             protein.centering_rotation_protein(args)
 
         utils.summarize_args(args)
-        # convert.make_MD_input(args)
+        convert.make_MD_input(args)
 
     print("Please cite the following paper when you use this software.")
     print("T. Yasuda, R. Morita, Y. Shigeta and R. Harada. (2024) \"Cellular Environment Mimicking Model GENerator: A tool for generating a cellular environment mimicking model.\"")
