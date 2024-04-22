@@ -3,7 +3,6 @@ import subprocess
 import os
 import shutil
 
-
 import parmed
 
 import utils
@@ -18,7 +17,10 @@ def make_MD_input(args: argparse.Namespace):
     os.remove("protein_H.pdb")
 
     _covert_amber(args)
+    _restraint_amber(args)
+
     _convert_GROMACS(args)
+    _restraint_GROMACS(args)
 
     return True
 
@@ -57,7 +59,8 @@ def _covert_amber(args: argparse.Namespace):
     
     exitcode = subprocess.run("tleap -f leap.in", shell=True, check=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
     if exitcode.returncode != 0:
-        raise ValueError("Failed to convert pdb file to amber format in tleap. See leap.log for details.")
+        utils.print_error("Failed to convert pdb file to amber format in tleap. See leap.log for details.")
+        exit(1)
     else:
         utils.print_info(f"Amber files are created and saved.")
 
@@ -70,4 +73,51 @@ def _convert_GROMACS(args: argparse.Namespace):
     parm.save(f"{args.output_prefix}.gro", overwrite=True)
 
     utils.print_info(f"GROMACS files are created and saved.")
+    return True
+
+def _restraint_amber(args: argparse.Namespace):
+    utils.print_info("Use the following options in .in files for the Amber simulation.")
+    model_resn = 0
+    with open(args.proteinpdb, "r") as f:
+        for line in f:
+            if line.startswith("ATOM") and "CA" in line[12:15]:
+                model_resn += 1
+
+    restraint_force = [1000, 1000, 1000]
+    print("\n------ amber_simulation.in ------")
+    print(f"ntr=1,\nrestraintmask=':1-{model_resn} & CA',\nrestraint_wt={restraint_force[0]}")
+    print("---------------------------------\n")
+
+    return True
+
+def _restraint_GROMACS(args: argparse.Namespace):
+    
+    # get residue id of CA atoms
+    restraint_resid = []
+    with open(f"{args.output_prefix}.gro", "r") as f:
+        for line in f:
+            if "CA" in line[10:15]:
+                restraint_resid.append(int(line[15:20]))
+
+    # write restraint.itp
+    restraint_force = [1000, 1000, 1000]
+    with open("restraint.itp", "w") as f:
+        f.write("[ position_restraints ]\n")
+        for resn in restraint_resid:
+            f.write(f"{resn: >5}    1    {restraint_force[0]} {restraint_force[1]} {restraint_force[2]}\n")
+
+    # add restraint.itp to the top file
+    shutil.move(f"{args.output_prefix}.top", f"{args.output_prefix}_norestraint.top")
+    moleculetype_count = 0
+    with open(f"{args.output_prefix}_norestraint.top", "r") as f:
+        with open(f"{args.output_prefix}.top", "w") as g:
+            for line in f:
+                if line.startswith("[ moleculetype ]"):
+                    moleculetype_count += 1
+                    if moleculetype_count == 2:
+                        g.write("#include \"restraint.itp\"\n\n")
+                g.write(line)
+    os.remove(f"{args.output_prefix}_norestraint.top")
+    utils.print_info("Position restraints were added in topology file for the GROMACS simulation.")
+
     return True

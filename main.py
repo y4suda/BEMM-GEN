@@ -78,6 +78,8 @@ if __name__ == "__main__":
         utils.summarize_args(args)
         convert.make_MD_input(args)
 
+    print("\n")
     print("Please cite the following paper when you use this software.")
     print("T. Yasuda, R. Morita, Y. Shigeta and R. Harada. (2024) \"Cellular Environment Mimicking Model GENerator: A tool for generating a cellular environment mimicking model.\"")
+    print("")
     

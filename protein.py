@@ -57,12 +57,14 @@ def validate_args(args: argparse.Namespace):
         args.proteinSS = "C"*len(args.proteinseq)
     
     if args.proteinSS is not None and len(args.proteinSS) != len(args.proteinseq):
-        raise ValueError("Length of the sequence and secondary structure are not same.")
+        utils.print_error("Length of the sequence and secondary structure are not same.")
+        exit(1)
     
     if args.proteinSS is not None:
         for s in args.proteinSS:
             if s not in ["H", "C"]:
-                raise ValueError("Secondary structure should be 'H' or 'C'.")
+                utils.print_error("Secondary structure should be 'H' or 'C'.")
+                exit(1)
 
     return args
 
@@ -100,7 +102,8 @@ def _make_pdb_from_sequence(sequence: str, SS: str):
     
     exitcode = subprocess.run("tleap -f leap.in", shell=True, check=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
     if exitcode.returncode != 0:
-        raise ValueError("Failed to make protein pdb file in tleap. See leap.log for details.")
+        utils.print_error("Failed to make protein pdb file in tleap. See leap.log for details.")
+        exit(1)
     else:
         utils.print_info(f"Protein pdb file is created and saved as {protein_filename}.")
 
@@ -122,7 +125,7 @@ def _compute_protein_size(pdb_filename: str):
     major_radius = (coords_pca[:,0].max() - coords_pca[:,0].min())/2
     minor_radius = (coords_pca[:,-1].max() - coords_pca[:,-1].min())/2
 
-    utils.print_info(f"Major radius: {major_radius:.2f} Å, Minor radius: {minor_radius:.2f} Å.")
+    utils.print_info(f"Major radius of protein: {major_radius:.2f} Å, Minor radius of protein: {minor_radius:.2f} Å.")
     return  major_radius, minor_radius
 
 def _compute_protein_axis(coords: np.ndarray):
@@ -160,7 +163,8 @@ def _get_model_size(args: argparse.Namespace, major_radius: float, minor_radius:
             radius = args.radius
 
         if radius < minor_radius + args.padding_radius:
-            raise ValueError(f"Specified radius ({args.radius:.2f} Å) is smaller than the protein size ({minor_radius:.2f} Å). Protein will be crushed with the cylinder.")
+            utils.print_error(f"Specified radius ({args.radius:.2f} Å) is smaller than the protein size ({minor_radius:.2f} Å). Protein will be crushed with the cylinder.")
+            exit(1)
     elif args.command == "sphere":
         # set radius
         if args.radius is None:
