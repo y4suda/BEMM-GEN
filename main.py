@@ -4,6 +4,7 @@ import utils
 import protein
 import model
 import convert
+import make_param
 
 if __name__ == "__main__":
 
@@ -42,8 +43,8 @@ if __name__ == "__main__":
         subparser.add_argument("--proteinseq", type=str, default=None, help="Amino acid sequence of the protein to be placed in the model.")
         subparser.add_argument("--proteinSS", type=str, default=None, help="Secondary structure of the protein to be placed in the model.")
 
-        subparser.add_argument("--forcefield-protein", type=str, default="ff14SB", help="Force field for the protein. (default: ff14SB)")
-        subparser.add_argument("--forcefield-model", type=str, default="gaff2", help="Force field for the residues. (default: gaff2)")
+        subparser.add_argument("--forcefield-protein", type=str, default="ff14SB", choices=["ff14SB", "ff99SB"], help="Force field for the protein. (default: ff14SB)")
+        subparser.add_argument("--forcefield-model", type=str, default="gaff2", choices=["gaff2", "gaff"], help="Force field for the residues. (default: gaff2)")
 
         subparser.add_argument("--min-distance", type=float, default=4.0, help="Minimum distance between two residues in angstrom. (default: 4.0)")
         subparser.add_argument("--resnames", type=str, default="BOC", help="Residue names to use connected by colon. Ex. \"BOC:BOH\" (default: BOC)")
@@ -51,6 +52,23 @@ if __name__ == "__main__":
         
         subparser.add_argument("--outward", action="store_true", help="Place residues outward from the center. (dafault: False)")
         subparser.add_argument("--output-prefix", type=str, default="out", help="Prefix for output file name. (default: inward)")
+
+    parser_makeparam = subparsers.add_parser("makeparam", help="Make parameter files for residues in model.")
+    parser_makeparam.add_argument("--smiles", required=True, type=str, help="SMILES file.")
+    parser_makeparam.add_argument("--resname", required=True, type=str, help="Residue name.")
+    parser_makeparam.add_argument("--description", required=True, type=str, default="Description", help="Description of the residue.")
+    parser_makeparam.add_argument("--method", type=str, default="HF", help="Method for RESP calculation.")
+    parser_makeparam.add_argument("--basisSet", type=str, default="6-31G*", help="Basis set for RESP calculation.")
+    parser_makeparam.add_argument("--method-opt", type=str, default="B3LYP", help="Method for optimization.")
+    parser_makeparam.add_argument("--basisSet-opt", type=str, default="6-31G*", help="Basis set for optimization.")
+    parser_makeparam.add_argument("--num-thread", type=int, default=8, help="Number of threads.")
+    parser_makeparam.add_argument("--memory-sizeGB", type=str, default="8", help="Memory size.")
+    parser_makeparam.add_argument("--neutralize", action=argparse.BooleanOptionalAction, default=True, help="Neutralize the molecule. (defailt: False)")
+    parser_makeparam.add_argument("--singlePoint", action=argparse.BooleanOptionalAction, default=False, help="Single point calculation. (defailt: False)")
+    parser_makeparam.add_argument("--netcharge", type=int, default=0, help="Net charge of the molecule.")
+    parser_makeparam.add_argument("--multiplicity", type=int, default=1, help="Multiplicity of the molecule.")
+
+    parser_listparam = subparsers.add_parser("listparam", help="List parameter files for residues in model.")
 
     # parse arguments
     args = parser.parse_args()
@@ -60,22 +78,33 @@ if __name__ == "__main__":
     if args.command is None:
         
         parser.print_help()
+    elif args.command == "makeparam":
+        utils.print_info("Make parameter files for residues in model...")
+        make_param.make_param(args)
+    elif args.command == "listparam":
+        utils.print_info("List parameter files for residues in model...")
+        make_param.list_param(args)
     else:
 
         if args.proteinpdb is not None or args.proteinseq is not None or args.proteinSS is not None:
+            utils.print_info("Prepare protein...")
             protein.preparation(args)
 
         if args.command == "cylinder":
             ## call cylinder function
+            utils.print_info("Create a cylinder model...")
             model.build_cylinder(args)
         elif args.command == "sphere":
             ## call sphere function
+            utils.print_info("Create a sphere model...")
             model.build_sphere(args)
         
         if args.proteinpdb is not None:
+
             protein.centering_rotation_protein(args)
 
         utils.summarize_args(args)
+        utils.print_info("Convert the model to MD input files...")
         convert.make_MD_input(args)
 
     print("\n")
