@@ -5,7 +5,7 @@ import shutil
 
 import parmed
 
-import utils
+from . import utils
 
 
 def make_MD_input(args: argparse.Namespace):

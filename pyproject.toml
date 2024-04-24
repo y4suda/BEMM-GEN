@@ -1,6 +1,5 @@
 [project]
 name = "CEMM-GEN"
-version = "0.0.1"
 dynamic = ["version"]
 authors = [{ name="Takunori Yasuda", email="yasuda.takunori.tkb_gb@u.tsukuba.ac.jp"}, { name="Rikuri Morita", email="mriky.25@gmail.com"}]
 description = "Cellular Environment Mimicking Model GENerator"
@@ -18,16 +17,14 @@ keywords = ["bioinfomatic", "molecular dynamics", "biology"]
 dependencies = [
   "scikit-learn",
   "resp",
-  "psi4",
   "rdkit",
-  "openbabel",
-  "parmed",
+  "parmed"
 ]
 
 [project.optional-dependencies]
 
 [project.scripts]
-corona = "cemm-gen:main"
+cemm-gen = "cemm_gen:main"
 
 [project.urls]
 "Homepage" = "https://github.com/y4suda/CEMM-GEN"

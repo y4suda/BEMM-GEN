@@ -1,13 +1,13 @@
 # -*- coding: utf-8 -*-
 import argparse
-import utils
-import protein
-import model
-import convert
-import make_param
+from . import utils
+from . import protein
+from . import model
+from . import convert
+from . import make_param
 
-if __name__ == "__main__":
-
+def main():
+    
     print("""
           
  ██████╗███████╗███╗   ███╗███╗   ███╗       ██████╗ ███████╗███╗   ██╗

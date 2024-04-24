@@ -13,7 +13,7 @@ from openbabel import openbabel as ob
 from rdkit import Chem
 from rdkit.Chem import AllChem,Draw
 
-import utils
+from . import utils
 
 # This code is partialy based on the following repository:
 # https://github.com/pablo-arantes/making-it-rain

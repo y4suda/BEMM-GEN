@@ -1,6 +1,8 @@
 import argparse
-import utils
 import numpy as np
+
+from . import utils
+
 
 def build_cylinder(args: argparse.Namespace):
     return None

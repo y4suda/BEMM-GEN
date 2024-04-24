@@ -4,7 +4,7 @@ import subprocess
 
 from sklearn.decomposition import PCA
 
-import utils
+from . import utils
 
 AA_DICT = {"A": "ALA",
             "R": "ARG",
