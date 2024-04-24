@@ -1,5 +1,13 @@
 # チュートリアル
 
+## インストール方法
+```sh
+conda create cemm-gen-env
+conda activate cemm-gen-env
+conda install -c conda-forge openbabel psi4
+pip install -e ../CEMM-GEN
+```
+
 ## 基本的な使い方
 ```sh:available_sub-commands
 # 円筒形のモデルを作成
