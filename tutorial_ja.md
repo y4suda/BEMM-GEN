@@ -1,11 +1,11 @@
 # チュートリアル
 
-## インストール方法
+## 暫定的なインストール方法（テストディレクトリを別に作って実施する方が良い）
 ```sh
-conda create cemm-gen-env
+conda create -n cemm-gen-env
 conda activate cemm-gen-env
-conda install -c conda-forge openbabel psi4
-pip install -e ../CEMM-GEN
+conda install -c conda-forge openbabel psi4 resp ambertools
+pip install -e {CEMM-GEN_dir}
 ```
 
 ## 基本的な使い方
@@ -59,7 +59,7 @@ cemm-gen makeparam --smiles CCC --resname MTY --description "Methyl group"
 
 ### 最低限必要な入力
 - SMILES表記の化合物構造 `--smiles`
-  - 位置拘束をかけるため、必ず２つの炭素で開始してください。
+  - 位置拘束をかけるため、必ず２つの炭素で開始してください。(OK: CCN; NG: CN)
 - 残基名 `--resname`
   - すでに利用されているアミノ酸残基名と被らないように、３文字で名前をつけてください。
 - 説明 `--description`
@@ -75,3 +75,6 @@ Rdkit の ETKDGv3 法で構造生成を行った後、`--method-opt` と `--basi
 
 ### 実行速度に関する設定
 `--num-thread` に使用するスレッド数を指定してください。`--memory-sizeGB` に使用可能なメモリサイズを指定してください。いずれもマシンの全コア、メモリを使用すると他の操作ができなくなる場合があるので、適宜余裕をもって設定してください。
+
+### すでにある残基を作り直す場合
+`--overwrite` を指定してください。システムデフォルトの残基は修正できませんが、カレントディレクトリの残基が優先されます。
