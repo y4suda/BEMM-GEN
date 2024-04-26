@@ -3,3 +3,5 @@
 __pycache__/
 *.vscode
 *.ipynb
+*.egg-info
+*.DS_store

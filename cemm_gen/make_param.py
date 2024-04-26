@@ -53,11 +53,11 @@ def _get_xyz_coords(mol):
     return xyz_string
 
 
-def _calcRESPCharges(mol, basisSet, method, gridPsi4 = 16):
+def _calcRESPCharges(mol, basisSet, method, gridPsi4 = 1):
     options = {"BASIS_ESP": basisSet,
                "METHOD_ESP": method,
                "RESP_A": 0.0005,
-               "RESP_B": 0.1,
+               "RESP_B": 10.0,
                "VDW_SCALE_FACTORS":[1.4, 1.6, 1.8, 2.0],
                "VDW_POINT_DENSITY":int(gridPsi4)
     }
@@ -73,7 +73,9 @@ def calc_RESP_charges(mol_smiles, resname, method="HF", basisSet="6-31G*", metho
     psi4.set_num_threads(num_thread)
     psi4.set_memory(memory_sizeGB)
     psi4.set_output_file("psi4.log")
-    psi4.set_options({"g_convergence": "gau"})
+    psi4.set_options({"g_convergence": "gau",
+                      "GEOM_MAXITER": 500,
+                      "opt_coordinates": "cartesian",})
     obConversion = ob.OBConversion()
     obConversion.SetInAndOutFormats("xyz", "mol2")
 
@@ -120,7 +122,7 @@ def calc_RESP_charges(mol_smiles, resname, method="HF", basisSet="6-31G*", metho
         else:
             print("Running geometry optimization...")
             methodNbasisSet = method_opt+"/"+basisSet_opt
-            psi4.optimize(methodNbasisSet, molecule=psi_mol)
+            psi4.optimize(methodNbasisSet, molecule=psi_mol, hessian_with="scf")
             resp_charges = _calcRESPCharges(psi_mol, basisSet, method, gridPsi4 = 1)
 
         ### save coords to xyz file
@@ -237,9 +239,20 @@ def make_param(args : argparse.Namespace):
         utils.print_error("SMILES should start with 'CC'.")
         sys.exit(1)
 
+    existed_residues = [d.split("/")[-1].split("_")[-1] for d in _get_current_params()]
+    if args.resname in existed_residues:
+        if args.overwrite == False:
+            utils.print_error("Residue name is already used.")
+            sys.exit(1)
+        elif args.overwrite == True:
+            shutil.rmtree(f"./FF_PARAM/FF_{args.resname}")
+    
 
     res_dir = f"./FF_PARAM/FF_{args.resname}"
     os.makedirs(f"{res_dir}", exist_ok=True)
+
+    with open(f"{res_dir}/smiles.txt", "w") as f:
+        f.write(args.smiles)
 
     with open(f"{res_dir}/description.txt", "w") as f:
         f.write(args.description)
@@ -256,7 +269,8 @@ def make_param(args : argparse.Namespace):
 
     os.remove(f"./psi4.log")
 
-    subprocess.run(f"antechamber -i {res_dir}/{args.resname}.mol2 -fi mol2 -o {res_dir}/{args.resname}_orig.mol2 -fo mol2 -at gaff2 -rn {args.resname} -nc {args.netcharge} -m {args.multiplicity} -pf y", shell=True, check=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+    shutil.copyfile(f"{res_dir}/{args.resname}.mol2", f"{res_dir}/{args.resname}_psi4.mol2")
+    subprocess.run(f"antechamber -i {res_dir}/{args.resname}.mol2 -fi mol2 -o {res_dir}/{args.resname}_orig.mol2 -fo mol2 -at gaff2 -rn {args.resname} -nc {args.netcharge} -m {args.multiplicity} -pf y -j 1", shell=True, check=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
     _round_mol2_charge(f"{res_dir}/{args.resname}_orig.mol2")
     shutil.copyfile(f"{res_dir}/{args.resname}_orig_round.mol2", f"{res_dir}/{args.resname}.mol2")
     subprocess.run(f"parmchk2 -i {res_dir}/{args.resname}.mol2 -f mol2 -o {res_dir}/{args.resname}.frcmod", shell=True, check=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
@@ -291,11 +305,42 @@ def list_param(args : argparse.Namespace):
     print("")
     print(f"name: description")
     print(f"{'-'*60}")
-    for d in glob.glob("./FF_PARAM/FF_*"):
+    residues = []
+    param_dirs = _get_params()
+    for d in param_dirs:
         resname = d.split("/")[-1].split("_")[-1]
+
+        with open(f"{d}/smiles.txt", "r") as f:
+            smiles = f.read()
         with open(f"{d}/description.txt", "r") as f:
             description = f.read()
-        print(f"{resname: <4}: {description}")
+
+        if os.path.dirname(os.path.abspath(__file__)) in d:
+            print(f"{resname: <4}: {description: <30} {smiles: <30} (default)")
+        else:
+            print(f"{resname: <4}: {description: <30} {smiles: <30} ({d})")
+        residues.append(resname)
 
     print("")
-    return True
+    return residues
+
+def _get_params():
+    param_dirs = _get_current_params()
+
+    # 同名の残基がカレントとシステムにある場合は、カレントのものを優先する
+    for d in _get_default_params():
+        resname = d.split("/")[-1].split("_")[-1]
+        for dd in param_dirs:
+            if resname == dd.split("/")[-1].split("_")[-1]:
+                break
+        else:
+            param_dirs.append(d)
+    return param_dirs
+
+def _get_current_params():
+    param_dirs = [os.path.abspath(d) for d in glob.glob("./FF_PARAM/FF_*")]
+    return param_dirs
+
+def _get_default_params():
+    param_dirs = [os.path.abspath(d) for d in glob.glob(f"{os.path.dirname(os.path.abspath(__file__))}/share/FF_PARAM/FF_*")]
+    return param_dirs

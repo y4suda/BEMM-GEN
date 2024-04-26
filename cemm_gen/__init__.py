@@ -57,6 +57,7 @@ def main():
     parser_makeparam.add_argument("--smiles", required=True, type=str, help="SMILES file.")
     parser_makeparam.add_argument("--resname", required=True, type=str, help="Residue name.")
     parser_makeparam.add_argument("--description", required=True, type=str, default="Description", help="Description of the residue.")
+    parser_makeparam.add_argument("--overwrite", action=argparse.BooleanOptionalAction, default=False, help="Overwrite the existing parameter files. (defailt: False)")
     parser_makeparam.add_argument("--method", type=str, default="HF", help="Method for RESP calculation.")
     parser_makeparam.add_argument("--basisSet", type=str, default="6-31G*", help="Basis set for RESP calculation.")
     parser_makeparam.add_argument("--method-opt", type=str, default="B3LYP", help="Method for optimization.")
