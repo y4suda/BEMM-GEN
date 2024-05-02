@@ -1,0 +1,24 @@
+@<TRIPOS>MOLECULE
+CBO
+    7     6     1     0     0
+SMALL
+No Charge or Current Charge
+
+
+@<TRIPOS>ATOM
+      1 C           -1.2500     0.2270     0.0970 c3         1 CBO      -0.294800
+      2 C1           0.2530     0.3450     0.0920 c          1 CBO       0.584200
+      3 O            1.0150    -0.5540    -0.1840 o          1 CBO      -0.526500
+      4 H           -1.6830     0.9560    -0.6010 hc         1 CBO       0.082600
+      5 H1          -1.5550    -0.7840    -0.1840 hc         1 CBO       0.102100
+      6 H2          -1.6400     0.4730     1.0930 hc         1 CBO       0.082600
+      7 H3           0.6430     1.3510     0.3700 h4         1 CBO      -0.030100
+@<TRIPOS>BOND
+     1     4     1 1   
+     2     3     2 2   
+     3     5     1 1   
+     4     2     1 1   
+     5     2     7 1   
+     6     1     6 1   
+@<TRIPOS>SUBSTRUCTURE
+     1 CBO         1 TEMP              0 ****  ****    0 ROOT

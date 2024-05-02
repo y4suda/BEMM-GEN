@@ -1,0 +1,7 @@
+source leaprc.protein.ff14SB
+source leaprc.gaff2
+NEG = loadmol2 ./FF_PARAM/FF_NEG/NEG.mol2
+loadamberparams ./FF_PARAM/FF_NEG/NEG.frcmod
+saveoff NEG ./FF_PARAM/FF_NEG/NEG.lib
+savepdb NEG ./FF_PARAM/FF_NEG/NEG.pdb
+quit

@@ -1,0 +1,7 @@
+source leaprc.protein.ff14SB
+source leaprc.gaff2
+ARM = loadmol2 ./FF_PARAM/FF_ARM/ARM.mol2
+loadamberparams ./FF_PARAM/FF_ARM/ARM.frcmod
+saveoff ARM ./FF_PARAM/FF_ARM/ARM.lib
+savepdb ARM ./FF_PARAM/FF_ARM/ARM.pdb
+quit
