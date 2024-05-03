@@ -12,6 +12,7 @@ import subprocess
 from openbabel import openbabel as ob
 from rdkit import Chem
 from rdkit.Chem import AllChem,Draw
+from rdkit.Chem.Draw import rdMolDraw2D
 
 from . import utils
 
@@ -67,6 +68,16 @@ def _calcRESPCharges(mol, basisSet, method, gridPsi4 = 1):
 
     return resp_charges
 
+def _draw_mol(mol, filename):
+    view = rdMolDraw2D.MolDraw2DCairo(600,600)
+    tm = rdMolDraw2D.PrepareMolForDrawing(mol)
+    option = view.drawOptions()
+    option.bondLineWidth = 6
+    option.highlightBondWidthMultiplier = 2
+    view.DrawMolecule(tm, highlightAtoms={0,1}, highlightAtomColors={0:(0.6,0.6,0.8), 1:(0.6,0.6,0.8)})
+    view.FinishDrawing()
+    view.WriteDrawingText(filename)
+    return True
 
 def calc_RESP_charges(mol_smiles, resname, method="HF", basisSet="6-31G*", method_opt="B3LYP", basisSet_opt="6-31G*", neutralize=True, singlePoint=True, num_thread=8, memory_sizeGB="8 GB", path="./", netcharge=0, multiplicity=1):
 
@@ -84,7 +95,8 @@ def calc_RESP_charges(mol_smiles, resname, method="HF", basisSet="6-31G*", metho
     mol_noH = Chem.MolFromSmiles(mol_smiles)
     mol = Chem.AddHs(mol_noH, addCoords=True)
 
-    Draw.MolToFile(mol_noH, size=(600, 600), filename=f"{path}/smiles.png")
+    # Draw.MolToFile(mol_noH, size=(600, 600), filename=f"{path}/smiles.png", highlightAtoms=[0,1], kekulize=True, highlightAtomColors=colors)
+    _draw_mol(mol_noH, f"{path}/smiles.png")
 
     try:
         # MMFF optimization
@@ -97,8 +109,9 @@ def calc_RESP_charges(mol_smiles, resname, method="HF", basisSet="6-31G*", metho
         print("ETKDGv3 failed, trying UFF optimization")
         AllChem.UFFOptimizeMolecule(mol)
 
-    Draw.MolToFile(mol, size=(600, 600), filename=f"{path}/smiles_ETKDGv3.png")
-    
+    # Draw.MolToFile(mol, size=(600, 600), filename=f"{path}/smiles_ETKDGv3.png")
+    _draw_mol(mol, f"{path}/smiles_ETKDGv3.png")
+
     if not mol is None:
         # molId = mol.GetProp("_Name")
         molId = resname
@@ -160,7 +173,8 @@ def calc_RESP_charges(mol_smiles, resname, method="HF", basisSet="6-31G*", metho
     for at, i in zip(mol.GetAtoms(), newChg_temp):
         lbl = "%.2f"%(i)
         at.SetProp("atomNote",lbl)
-        Draw.MolToFile(mol, size=(600, 600), filename=f"{path}/smiles_charges.png")
+        # Draw.MolToFile(mol, size=(600, 600), filename=f"{path}/smiles_charges.png")
+        _draw_mol(mol, f"{path}/smiles_charges.png")
 
 def _round_mol2_charge(mol2_file):
     # Mol2ファイルの読み込み
