@@ -41,7 +41,9 @@ CEMM-GEN では生成したモデル内にタンパク質を配置できます�
     Ambertools の tleap プログラムを使用して構造を自動生成します。アミノ酸配列は１文字表記で入力してください。
     二次構造は直鎖（コイル） `C` もしくはヘリックス `H` のみが使用できます。アミノ酸配列と長さが一致しない場合はエラーが返されます。
 
+[!TIP]
 いずれの場合も、タンパク質の長径、短径は自動で計算されモデルの大きさに反映されます。`cylinder` の `--length` を指定した場合タンパク質がはみ出す場合は警告が出されますが、構造生成は許容されます。最終的な構造をよく確認してください。`--radius` を指定した場合、タンパク質の大きさがはみ出すことは許容されないため、エラーを返し終了します。タンパク質のサイズに合わせたモデルを作るには `--padding-radius` を活用してください。
+
 
 ## パラメーターの作成
 
@@ -74,7 +76,69 @@ Rdkit の ETKDGv3 法で構造生成を行った後、`--method-opt` と `--basi
 負電荷を持つカルボキシ基などは芳香族結合 `:` をSMILESに明記してください。 例：`CCC(:O):O`
 
 ### 実行速度に関する設定
-`--num-thread` に使用するスレッド数を指定してください。`--memory-sizeGB` に使用可能なメモリサイズを指定してください。いずれもマシンの全コア、メモリを使用すると他の操作ができなくなる場合があるので、適宜余裕をもって設定してください。
+`--num-thread` には使用するスレッド数を指定してください。`--memory-sizeGB` には使用可能なメモリサイズを指定してください。いずれもマシンの全コア、メモリを使用すると他の操作ができなくなる場合があるので、適宜余裕をもって設定してください。
 
 ### すでにある残基を作り直す場合
 `--overwrite` を指定してください。システムデフォルトの残基は修正できませんが、カレントディレクトリの残基が優先されます。
+
+
+
+## デフォルトパラメーターの一覧
+<div width="100%">
+<div style="width: 164px; display: inline-block">
+<br>BLA<br>(Blank group)<br>CCCC<br>
+<img src="./cemm_gen/share/FF_PARAM/FF_BLA/smiles.png" width="128px">
+</div>
+<div style="width: 164px; display: inline-block">
+<br>MTY<br>(Methyl group)<br>CCC<br>
+<img src="./cemm_gen/share/FF_PARAM/FF_MTY/smiles.png" width="128px">
+</div>
+<div style="width: 164px; display: inline-block">
+<br>ETY<br>(Ethyl group)<br>CCCC<br>
+<img src="./cemm_gen/share/FF_PARAM/FF_ETY/smiles.png" width="128px">
+</div>
+<div style="width: 164px; display: inline-block">
+<br>HYD<br>(Hydroxy group)<br>CCO<br>
+<img src="./cemm_gen/share/FF_PARAM/FF_HYD/smiles.png" width="128px">
+</div>
+<div style="width: 164px; display: inline-block">
+<br>CBO<br>(Carboxy group)<br>CCO<br>
+<img src="./cemm_gen/share/FF_PARAM/FF_CBO/smiles.png" width="128px">
+</div>
+<div style="width: 164px; display: inline-block">
+<br>MTO<br>(Methoxy group)<br>CCO<br>
+<img src="./cemm_gen/share/FF_PARAM/FF_MTO/smiles.png" width="128px">
+</div>
+<div style="width: 164px; display: inline-block">
+<br>ARM<br>(Aromatic group)<br>CCc1ccccc1<br>
+<img src="./cemm_gen/share/FF_PARAM/FF_ARM/smiles.png" width="128px">
+</div>
+<div style="width: 164px; display: inline-block">
+<br>ARO<br>(Tyrosine-like group)<br>CCc1ccc(O)cc1<br>
+<img src="./cemm_gen/share/FF_PARAM/FF_ARO/smiles.png" width="128px">
+</div>
+<div style="width: 164px; display: inline-block">
+<br>NEG<br>(Negatively charged carboxy group)<br>CCC(:O):O<br>
+<img src="./cemm_gen/share/FF_PARAM/FF_NEG/smiles.png" width="128px">
+</div>
+<div style="width: 164px; display: inline-block">
+<br>POS<br>(Positively charged amino group)<br>CC[NH3+]<br>
+<img src="./cemm_gen/share/FF_PARAM/FF_POS/smiles.png" width="128px">
+</div>
+<div style="width: 164px; display: inline-block">
+<br>THI<br>(Thiol group)<br>CCS<br>
+<img src="./cemm_gen/share/FF_PARAM/FF_THI/smiles.png" width="128px">
+</div>
+<div style="width: 164px; display: inline-block">
+<br>THE<br>(Thiolate group)<br>CC[S-]<br>
+<img src="./cemm_gen/share/FF_PARAM/FF_THE/smiles.png" width="128px">
+</div>
+<div style="width: 164px; display: inline-block">
+<br>MTI<br>(Methionine group)<br>CCSC<br>
+<img src="./cemm_gen/share/FF_PARAM/FF_MTI/smiles.png" width="128px">
+</div>
+<div style="width: 164px; display: inline-block">
+<br>GUA<br>(Guanidino group)<br>CCNC(N)N<br>
+<img src="./cemm_gen/share/FF_PARAM/FF_GUA/smiles.png" width="128px">
+</div>
+</div>
