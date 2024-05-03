@@ -1,0 +1,7 @@
+source leaprc.protein.ff14SB
+source leaprc.gaff2
+ARO = loadmol2 ./FF_PARAM/FF_ARO/ARO.mol2
+loadamberparams ./FF_PARAM/FF_ARO/ARO.frcmod
+saveoff ARO ./FF_PARAM/FF_ARO/ARO.lib
+savepdb ARO ./FF_PARAM/FF_ARO/ARO.pdb
+quit

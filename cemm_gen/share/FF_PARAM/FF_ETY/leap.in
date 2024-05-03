@@ -1,0 +1,7 @@
+source leaprc.protein.ff14SB
+source leaprc.gaff2
+ETY = loadmol2 ./FF_PARAM/FF_ETY/ETY.mol2
+loadamberparams ./FF_PARAM/FF_ETY/ETY.frcmod
+saveoff ETY ./FF_PARAM/FF_ETY/ETY.lib
+savepdb ETY ./FF_PARAM/FF_ETY/ETY.pdb
+quit
