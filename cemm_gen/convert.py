@@ -119,5 +119,6 @@ def _restraint_GROMACS(args: argparse.Namespace):
                 g.write(line)
     os.remove(f"{args.output_prefix}_norestraint.top")
     utils.print_info("Position restraints were added in topology file for the GROMACS simulation.")
+    utils.print_info("Don't forget to place the restraint.itp in the working directory.")
 
     return True
