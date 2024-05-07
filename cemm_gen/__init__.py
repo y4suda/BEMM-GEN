@@ -68,10 +68,10 @@ def main():
     parser_makeparam.add_argument("--singlePoint", action=argparse.BooleanOptionalAction, default=False, help="Single point calculation. (defailt: False)")
     parser_makeparam.add_argument("--netcharge", type=int, default=0, help="Net charge of the molecule.")
     parser_makeparam.add_argument("--multiplicity", type=int, default=1, help="Multiplicity of the molecule.")
+    parser_makeparam.add_argument("--max-iter", type=int, default=500, help="Maximum number of iterations for optimization.")
 
     parser_listparam = subparsers.add_parser("listparam", help="List parameter files for residues in model.")
-
-    # parse arguments
+    parser_listparam.add_argument("--dump", action=argparse.BooleanOptionalAction, default=False, help="Dump the parameter files.")
     args = parser.parse_args()
 
 

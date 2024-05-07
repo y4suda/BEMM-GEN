@@ -79,13 +79,13 @@ def _draw_mol(mol, filename):
     view.WriteDrawingText(filename)
     return True
 
-def calc_RESP_charges(mol_smiles, resname, method="HF", basisSet="6-31G*", method_opt="B3LYP", basisSet_opt="6-31G*", neutralize=True, singlePoint=True, num_thread=8, memory_sizeGB="8 GB", path="./", netcharge=0, multiplicity=1):
+def calc_RESP_charges(mol_smiles, resname, method="HF", basisSet="6-31G*", method_opt="B3LYP", basisSet_opt="6-31G*", neutralize=True, singlePoint=True, num_thread=8, memory_sizeGB="8 GB", path="./", netcharge=0, multiplicity=1, max_iter=500):
 
     psi4.set_num_threads(num_thread)
     psi4.set_memory(memory_sizeGB)
     psi4.set_output_file("psi4.log")
     psi4.set_options({"g_convergence": "gau",
-                      "GEOM_MAXITER": 500,
+                      "GEOM_MAXITER": max_iter,
                       "opt_coordinates": "cartesian",})
     obConversion = ob.OBConversion()
     obConversion.SetInAndOutFormats("xyz", "mol2")
@@ -253,6 +253,10 @@ def make_param(args : argparse.Namespace):
         utils.print_error("SMILES should start with 'CC'.")
         sys.exit(1)
 
+    if args.netcharge != 0 and args.neutralize == True:
+        utils.print_error("Net charge is not zero. Specify --no-neutralize option.")
+        sys.exit(1)
+
     existed_residues = [d.split("/")[-1].split("_")[-1] for d in _get_current_params()]
     if args.resname in existed_residues:
         if args.overwrite == False:
@@ -271,12 +275,16 @@ def make_param(args : argparse.Namespace):
     with open(f"{res_dir}/description.txt", "w") as f:
         f.write(args.description)
 
-    calc_RESP_charges(smiles, resname=args.resname , path=f"{res_dir}", neutralize=args.neutralize, singlePoint=args.singlePoint, num_thread=args.num_thread, memory_sizeGB=f"{args.memory_sizeGB} GB",
-                        method=args.method, basisSet=args.basisSet, method_opt=args.method_opt, basisSet_opt=args.basisSet_opt, netcharge=args.netcharge, multiplicity=args.multiplicity)
+    calc_RESP_charges(smiles, resname=args.resname , path=f"{res_dir}", neutralize=args.neutralize, singlePoint=args.singlePoint,
+                    num_thread=args.num_thread, memory_sizeGB=f"{args.memory_sizeGB} GB",
+                    method=args.method, basisSet=args.basisSet, method_opt=args.method_opt, basisSet_opt=args.basisSet_opt,
+                    netcharge=args.netcharge, multiplicity=args.multiplicity, max_iter=args.max_iter)
 
     
     if not os.path.exists(f"{res_dir}/{args.resname}.mol2"):
         utils.print_error("Failed to calculate RESP charges.")
+        utils.print_info("Check psi4.log for details.")
+        utils.print_info("Setting --max-iter to larger value may help.")
         sys.exit(1)
 
     utils.print_info(f"RESP charges are calculated and saved as {res_dir}/{args.resname}.mol2.")
@@ -320,9 +328,8 @@ def list_param(args : argparse.Namespace):
     print(f"name: description")
     print(f"{'-'*60}")
     residues = []
-    param_dirs = _get_params()
-    for d in param_dirs:
-        resname = d.split("/")[-1].split("_")[-1]
+    param_dict = _get_params()
+    for resname, d in param_dict.items():
 
         with open(f"{d}/smiles.txt", "r") as f:
             smiles = f.read()
@@ -330,12 +337,16 @@ def list_param(args : argparse.Namespace):
             description = f.read()
 
         if os.path.dirname(os.path.abspath(__file__)) in d:
-            print(f"{resname: <4}: {description: <30} {smiles: <30} (default)")
+            print(f"{resname: <4}: {description: <40} {smiles: <30} (default)")
         else:
-            print(f"{resname: <4}: {description: <30} {smiles: <30} ({d})")
+            print(f"{resname: <4}: {description: <40} {smiles: <30} ({d})")
         residues.append(resname)
 
     print("")
+
+    # Write available parameters to html file
+    if args.dump == True:
+        dump_available_params()
     return residues
 
 def _get_params():
@@ -349,12 +360,39 @@ def _get_params():
                 break
         else:
             param_dirs.append(d)
-    return param_dirs
+    
+    return {d.split("/")[-1].split("_")[-1]: d for d in sorted(param_dirs, key=lambda x: x.split("/")[-1].split("_")[-1])}
 
 def _get_current_params():
+    ##TODO : Add user variable to specify the path of FF_PARAM
     param_dirs = [os.path.abspath(d) for d in glob.glob("./FF_PARAM/FF_*")]
     return param_dirs
 
 def _get_default_params():
     param_dirs = [os.path.abspath(d) for d in glob.glob(f"{os.path.dirname(os.path.abspath(__file__))}/share/FF_PARAM/FF_*")]
     return param_dirs
+
+def dump_available_params():
+    
+    dump_text = ""
+    dump_text += "## Available parameters\n"
+    dump_text += '<div width="100%">\n'
+    param_dict = _get_params()
+    for resname, d in param_dict.items():
+
+        with open(f"{d}/smiles.txt", "r") as f:
+            smiles = f.read()
+        with open(f"{d}/description.txt", "r") as f:
+            description = f.read()
+    
+        dump_text += f'<div style="width: 164px; display: inline-block">\n'
+        dump_text += f'<br>{resname}<br>({description})<br>{smiles}<br>\n'
+        dump_text += f'<img src="{d}/smiles.png" width="128px">\n'
+        dump_text += f'</div>\n'
+    dump_text += '</div>\n'
+
+    filename = "available_params.html"
+    with open(filename, "w") as f:
+        f.write(dump_text)
+
+    return True
