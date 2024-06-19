@@ -6,6 +6,7 @@ import shutil
 import parmed
 
 from . import utils
+from . import make_param
 
 
 def make_MD_input(args: argparse.Namespace):
@@ -30,12 +31,15 @@ def _covert_amber(args: argparse.Namespace):
     leap_command += f"source leaprc.water.tip3p\n"
     leap_command += f"source leaprc.{args.forcefield_model}\n"
     
-    # for resname in args.resnames.split(":"):
-    #     leap_command += f"loadamberparams {resname}.frcmod\n"
-    #     leap_command += f"loadoff {resname}.lib\n"
+    available_fr_list=make_param._get_params()    
+    for resname in args.resnames.split(":"):
+        if resname not in available_fr_list:
+            raise ValueError(f"{resname} is not available")
+        leap_command += f"loadamberparams {available_fr_list[resname]}/{resname}.frcmod\n"
+        leap_command += f"loadoff {available_fr_list[resname]}/{resname}.lib\n"
 
-    # if args.command == "cylinder":
-    #     leap_command += f"model = loadpdb cylinder.pdb\n"
+    if args.command == "cylinder":
+        leap_command += f"model = loadpdb cylinder.pdb\n"
     # elif args.command == "sphere":
     #     leap_command += f"model = loadpdb sphere.pdb\n"
 
