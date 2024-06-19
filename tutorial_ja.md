@@ -1,3 +1,7 @@
+
+<p style="text-align: center"><br><img src="./cemm-gen_logo_horizontal.png" width="512px"><br><br>
+Cellular Environment Mimicking Model GENerator  ver. 2024.4.1<br><br><br></p>
+
 # チュートリアル
 
 ## 暫定的なインストール方法（テストディレクトリを別に作って実施する方が良い）
@@ -23,13 +27,24 @@ cemm-gen makeparam
 cemm-gen listparam
 ```
 
-## 円筒形のモデル作成
+## 🔭 円筒形のモデル作成
 
-## 球形のモデル作成
+```sh:quick_example
+cemm-gen cylinder --length 100 --radius 50 --padding-radius 10 \
+                  --proteinseq GYDPETGTWG --proteinSS CCCCCCCCCC \
+                  --resnames MTY:HYD --composition 1:2.5
+```
+
+## 🌐 球形のモデル作成
+
+```sh:quick_example
+cemm-gen sphere --length 100 --radius 50 --padding-radius 10 \
+                  --proteinpdb protein.pdb \
+                  --resnames MTY:HYD --composition 1:2.5
+```
 
 
-
-## タンパク質構造の入力または生成
+## 🍳 タンパク質構造の入力または生成
 CEMM-GEN では生成したモデル内にタンパク質を配置できます。タンパク質の指定方法は２種類です。
 
 1. pdbファイルを指定する `--proteinpdb`
@@ -45,7 +60,7 @@ CEMM-GEN では生成したモデル内にタンパク質を配置できます�
 いずれの場合も、タンパク質の長径、短径は自動で計算されモデルの大きさに反映されます。`cylinder` の `--length` を指定した場合タンパク質がはみ出す場合は警告が出されますが、構造生成は許容されます。最終的な構造をよく確認してください。`--radius` を指定した場合、タンパク質の大きさがはみ出すことは許容されないため、エラーを返し終了します。タンパク質のサイズに合わせたモデルを作るには `--padding-radius` を活用してください。
 
 
-## パラメーターの一覧
+## 📖 パラメーターの一覧
 
 現在利用可能な残基一覧は `listparam` サブコマンドで取得できます。
 
@@ -55,7 +70,7 @@ cemm-gen listparam
 
 `--dump` オプションを付けると利用可能な残基の一覧をHTMLファイルで出力します。
 
-## パラメーターの作成
+## 💻 パラメーターの作成
 
 独自の残基を作る場合は `makeparam` サブコマンドを使用してください。
 
@@ -72,7 +87,7 @@ cemm-gen makeparam --smiles CCC --resname MTY --description "Methyl group"
   - 残基を登録する際の説明を入力してください。
 
 ### 構造最適化を省略する場合
-Rdkit の ETKDGv3 法で構造生成を行った後、`--method-opt` と `--basisSet-opt` で指定された汎関数？で最適化を行います。
+Rdkit の ETKDGv3 法で構造生成を行った後、`--method-opt` と `--basisSet-opt` で指定された基底関数で最適化を行います。
 これを省略する場合（構造最適化が完了しないなど）、`--singlePoint` オプションを付けて実行してください。
 
 ### 電荷をもつ残基の場合
@@ -146,3 +161,9 @@ Rdkit の ETKDGv3 法で構造生成を行った後、`--method-opt` と `--basi
 <img src="./cemm_gen/share/FF_PARAM/FF_GUA/smiles.png" width="128px">
 </div>
 </div>
+
+
+## 引用
+このプログラムを利用して論文等を作成する際は、可能な範囲で以下の文献を引用してください。
+
+Takunori Yasuda, Rikuri Morita, Yasuteru Shigeta, Ryuhei Harada. (2024) Cellular Environment Mimicking Model GENerator: A tool for generating a cellular environment mimicking model. Submitted.
