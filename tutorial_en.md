@@ -1,5 +1,4 @@
-
-<p style="text-align: center"><br><img src="./cemm-gen_logo_horizontal.png" width="512px"><br><br>
+<p align="center"><br><img src="./cemm-gen_logo_horizontal.png" width="512px"><br><br>
 Cellular Environment Mimicking Model GENerator  ver. 2024.4.1<br><br><br></p>
 
 # Tutorial
@@ -31,7 +30,7 @@ cemm-gen listparam
 
 ```sh:quick_example
 cemm-gen cylinder --length 100 --radius 50 --padding-radius 10 \
-                  --proteinseq GYDPETGTWG --proteinSS CCCCCCCCCC \
+                  --proteinseq ASASASASAS --proteinSS CCCCCCCCCC \
                   --resnames MTY:HYD --composition 1:2.5
 ```
 
@@ -97,6 +96,7 @@ If you want to skip this step (e.g., if the structure optimization is not comple
 
 ### Charge setting
 If the residue has a charge, specify the charge with the `--netcharge` option.
+If the charge is not zero, add the `--no-neutralize` option.
 For carboxy groups with negative charges, please specify the aromatic bond `:` in the SMILES. Example: `CCC(:O):O`
 
 ### Settings related to effective execution

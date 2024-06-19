@@ -1,10 +1,9 @@
-
-<p style="text-align: center"><br><img src="./cemm-gen_logo_horizontal.png" width="512px"><br><br>
+<p align="center"><br><img src="./cemm-gen_logo_horizontal.png" width="512px"><br><br>
 Cellular Environment Mimicking Model GENerator  ver. 2024.4.1<br><br><br></p>
 
 # チュートリアル
 
-## 暫定的なインストール方法（テストディレクトリを別に作って実施する方が良い）
+## インストール方法
 ```sh
 conda create -n cemm-gen-env
 conda activate cemm-gen-env
@@ -31,7 +30,7 @@ cemm-gen listparam
 
 ```sh:quick_example
 cemm-gen cylinder --length 100 --radius 50 --padding-radius 10 \
-                  --proteinseq GYDPETGTWG --proteinSS CCCCCCCCCC \
+                  --proteinseq ASASASASAS --proteinSS CCCCCCCCCC \
                   --resnames MTY:HYD --composition 1:2.5
 ```
 
@@ -40,7 +39,7 @@ cemm-gen cylinder --length 100 --radius 50 --padding-radius 10 \
 ```sh:quick_example
 cemm-gen sphere --length 100 --radius 50 --padding-radius 10 \
                   --proteinpdb protein.pdb \
-                  --resnames MTY:HYD --composition 1:2.5
+                  --resnames MTY:HYD --composition 0.3:0.7
 ```
 
 
@@ -91,7 +90,7 @@ Rdkit の ETKDGv3 法で構造生成を行った後、`--method-opt` と `--basi
 これを省略する場合（構造最適化が完了しないなど）、`--singlePoint` オプションを付けて実行してください。
 
 ### 電荷をもつ残基の場合
-`--netcharge` オプションに電荷を指定してください。
+`--netcharge` オプションに電荷を指定してください。電荷がゼロでない場合は、`--no-neutralize` オプションを付けてください。
 負電荷を持つカルボキシ基などは芳香族結合 `:` をSMILESに明記してください。 例：`CCC(:O):O`
 
 ### 実行速度に関する設定
