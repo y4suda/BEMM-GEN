@@ -15,8 +15,8 @@ def build_cylinder(args: argparse.Namespace):
     #一層あたりのfunctional_residueの数
     fr_number_inlayer = functional_residue.get_number_inlayer(fr_ratio,num_points)
     output=""
-    atom_index=1
-    res_num=1
+    atom_index=0
+    res_num=0
     for current_layer in range(1,num_layer+1):
         cylinder_points_layer = cylinder_points[num_points*(current_layer-1):num_points*current_layer]
         fr_order = functional_residue.get_order_inlayer(fr_list,fr_number_inlayer)
@@ -84,7 +84,7 @@ class cylinder:
                 x = r * np.cos(theta)
                 y = r * np.sin(theta)
                 points.append((x, y, z))
-        return np.array(points), num_theta, num_z
+        return np.array(points)-np.mean(points, axis=0), num_theta, num_z
     
     def modify(cylinder_points_layer,fr_order,fr_coord_dict):
         modify_coord_list=[]
@@ -100,9 +100,9 @@ class cylinder:
 class functional_residue:
     #1層に含まれるfunctional_residueの数を決める
     def get_number_inlayer(fr_ratio,num_points):
-        fg_number = fr_ratio//num_points
+        fg_number = fr_ratio*100*num_points//num_points
         if sum(fg_number) != num_points:
-            for i in np.argsort(np.remainder(fr_ratio,num_points))[::-1]:
+            for i in np.argsort(np.remainder(fr_ratio*100*num_points,num_points))[::-1]:
                 fg_number[i] += 1
                 if sum(fg_number) == num_points:
                     break
