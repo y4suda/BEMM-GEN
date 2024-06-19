@@ -45,8 +45,8 @@ def _covert_amber(args: argparse.Namespace):
 
     if args.proteinpdb is not None:
         leap_command += f"protein = loadpdb {args.proteinpdb}\n"
-        leap_command += f"system = protein\n"
-        # leap_command += f"system = combine {{ model protein }}\n"
+        # leap_command += f"system = protein\n"
+        leap_command += f"system = combine {{ protein model }}\n"
     else:
         leap_command += f"system = model\n"
 
@@ -56,6 +56,7 @@ def _covert_amber(args: argparse.Namespace):
     leap_command += f"charge system\n"
 
     leap_command += f"saveamberparm system {args.output_prefix}.prmtop {args.output_prefix}.inpcrd\n"
+    leap_command += f"savepdb system {args.output_prefix}.pdb\n"
     leap_command += f"quit\n"
 
     with open("leap.in", "w") as f:
@@ -76,53 +77,63 @@ def _convert_GROMACS(args: argparse.Namespace):
     parm.save(f"{args.output_prefix}.top", format="gromacs", overwrite=True)
     parm.save(f"{args.output_prefix}.gro", overwrite=True)
 
-    utils.print_info(f"GROMACS files are created and saved.")
+    utils.print_info(f"GROMACS files are created and saved. ({args.output_prefix}.top and {args.output_prefix}.gro)")
     return True
 
 def _restraint_amber(args: argparse.Namespace):
     utils.print_info("Use the following options in .in files for the Amber simulation.")
-    model_resn = 0
-    with open(args.proteinpdb, "r") as f:
+    model_start = 0
+    model_end = 0
+    protein_end = 0
+    water_start = 0
+    is_protein = True
+    with open(f"{args.output_prefix}.pdb", "r") as f:
         for line in f:
-            if line.startswith("ATOM") and (" C " in line[12:15] or "C1" in line[12:15]):
-                model_resn += 1
+            if line.startswith("ATOM"):
+                if is_protein:
+                    protein_end = int(line[22:26])
+                if water_start == 0 and line[17:20] == "WAT":
+                    water_start = int(line[22:26])
+            if line.startswith("TER"):
+                is_protein = False
 
     restraint_force = [1000, 1000, 1000]
     print("\n------ amber_simulation.in ------")
-    print(f"ntr=1,\nrestraintmask=':1-{model_resn} & C1',\nrestraint_wt={restraint_force[0]}")
+    print(f"ntr=1,\nrestraintmask=':{protein_end+1}-{water_start-1} & @C,C1',\nrestraint_wt={restraint_force[0]}")
     print("---------------------------------\n")
 
     return True
 
 def _restraint_GROMACS(args: argparse.Namespace):
-    
-    # get residue id of CA atoms
-    restraint_resid = []
-    with open(f"{args.output_prefix}.gro", "r") as f:
-        for line in f:
-            if " C " in line[10:15] or "C1" in line[10:15]:
-                restraint_resid.append(int(line[15:20]))
 
-    # write restraint.itp
     restraint_force = [1000, 1000, 1000]
-    with open("restraint.itp", "w") as f:
-        f.write("[ position_restraints ]\n")
-        for resn in restraint_resid:
-            f.write(f"{resn: >5}    1    {restraint_force[0]} {restraint_force[1]} {restraint_force[2]}\n")
 
-    # add restraint.itp to the top file
     shutil.move(f"{args.output_prefix}.top", f"{args.output_prefix}_norestraint.top")
-    moleculetype_count = 0
+    
+    residue_list = args.resnames.split(":")
     with open(f"{args.output_prefix}_norestraint.top", "r") as f:
         with open(f"{args.output_prefix}.top", "w") as g:
+            is_restraint_molecule = False
             for line in f:
                 if line.startswith("[ moleculetype ]"):
-                    moleculetype_count += 1
-                    if moleculetype_count == 2:
-                        g.write("#include \"restraint.itp\"\n\n")
+                    # Add position restraints of previous molecule
+                    if is_restraint_molecule == True:
+                        g.write("[ position_restraints ]\n")
+                        g.write(f"{1: >5}    1    {restraint_force[0]} {restraint_force[1]} {restraint_force[2]}\n")
+                        g.write(f"{2: >5}    1    {restraint_force[0]} {restraint_force[1]} {restraint_force[2]}\n")
+                        g.write("\n")
+                        is_restraint_molecule = False
+                    
+                    
+                    g.write(line)
+                    g.write(f.readline())
+                    molecule_name_line = f.readline()
+                    g.write(molecule_name_line)
+                    molecule_name = molecule_name_line.split()[0]
+                    if molecule_name in residue_list:
+                        is_restraint_molecule = True
+                    continue
                 g.write(line)
-    os.remove(f"{args.output_prefix}_norestraint.top")
     utils.print_info("Position restraints were added in topology file for the GROMACS simulation.")
-    utils.print_info("Don't forget to place the restraint.itp in the working directory.")
 
     return True
