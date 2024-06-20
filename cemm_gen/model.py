@@ -33,8 +33,28 @@ def build_cylinder(args: argparse.Namespace):
     return None
 
 def build_sphere(args: argparse.Namespace):
+    fr_list = args.resnames.split(":")
+    fr_ratio = np.array(list(map(float,args.composition.split(":"))))/sum(list(map(float,args.composition.split(":"))))
+    #fr周りの情報読み込み
+    fr_atom_name_dict,fr_coord_dict = functional_residue.load_mol2(fr_list)
+    #cylinderの生成
+    sphere_points,num_points = sphere.generate(args.radius,args.min_distance)
+    output=""
+    atom_index=1
+    res_num=1
+    fr_order=functional_residue.get_order_inlayer(fr_list,fr_ratio/100*num_points)
+    sphere_center=np.mean(sphere_points, axis=0)
+    for current_sphere_point,fr_name in zip(sphere_points,fr_order):
+        fr_atom_name=fr_atom_name_dict[fr_name]
+        fr_atom_coord=fr_coord_dict[fr_name]
+        modify_coord=sphere.modify(current_sphere_point,fr_name,fr_atom_coord,sphere_center)
+        for atom_name,atom_coord in zip(fr_atom_name,modify_coord):
+            output+=(f"ATOM  {atom_index:5d}  {atom_name:4s}{fr_name}{res_num:6d}    {atom_coord[0]:8.3f}{atom_coord[1]:8.3f}{atom_coord[2]:8.3f}  1.00  0.00\n")
+            atom_index+=1
+        res_num+=1
+        output+="TER\n"
+    np.savetxt(f"./sphere_test.pdb",[output],fmt="%s")
     return None 
-
 
 class calcurate_coordinate:
     def translation(modify_coord,fr_coord):
@@ -96,6 +116,37 @@ class cylinder:
             rotated_fr_coord=calcurate_coordinate.rotation(translated_fr_coord,ref_vector)
             modify_coord_list.append(rotated_fr_coord)
         return modify_coord_list
+
+class sphere:
+    def estimate_number_of_points(r, d):
+        sphere_area = 4 * np.pi * r ** 2
+        area_per_point = d ** 2
+        return int(np.ceil(sphere_area / area_per_point))
+
+    def generate(r, d):
+        num_points = sphere.estimate_number_of_points(r, d)
+        points = []
+        phi = np.pi * (3. - np.sqrt(5.))  # 黄金角
+
+        for i in range(num_points):
+            y = 1 - (i / float(num_points - 1)) * 2  # yは-1から1
+            radius = np.sqrt(1 - y * y)  # yの高さにおける円の半径
+
+            theta = phi * i  # 黄金角による角度
+
+            x = np.cos(theta) * radius
+            z = np.sin(theta) * radius
+
+            points.append((r * x, r * y, r * z))
+        
+        return np.array(points)-np.mean(points, axis=0), num_points
+    
+    def modify(modify_coord,fr_name,fr_coord,sphere_center):
+        translated_fr_coord=calcurate_coordinate.translation(modify_coord,fr_coord)
+        ref_vector=sphere_center-modify_coord
+        rotated_fr_coord=calcurate_coordinate.rotation(translated_fr_coord,ref_vector)
+        modify_coord=rotated_fr_coord
+        return modify_coord
 
 class functional_residue:
     #1層に含まれるfunctional_residueの数を決める
