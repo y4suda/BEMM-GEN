@@ -106,7 +106,7 @@ def _restraint_amber(args: argparse.Namespace):
 
 def _restraint_GROMACS(args: argparse.Namespace):
 
-    restraint_force = [1000, 1000, 1000]
+    restraint_force = [10000, 10000, 10000]
 
     shutil.move(f"{args.output_prefix}.top", f"{args.output_prefix}_norestraint.top")
     
@@ -123,8 +123,8 @@ def _restraint_GROMACS(args: argparse.Namespace):
                         g.write(f"{2: >5}    1    {restraint_force[0]} {restraint_force[1]} {restraint_force[2]}\n")
                         g.write("\n")
                         is_restraint_molecule = False
-                    
-                    
+
+
                     g.write(line)
                     g.write(f.readline())
                     molecule_name_line = f.readline()
