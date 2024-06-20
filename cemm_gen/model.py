@@ -53,7 +53,7 @@ def build_sphere(args: argparse.Namespace):
             atom_index+=1
         res_num+=1
         output+="TER\n"
-    np.savetxt(f"./sphere_test.pdb",[output],fmt="%s")
+    np.savetxt(f"./sphere.pdb",[output],fmt="%s")
     return None 
 
 class calcurate_coordinate:
