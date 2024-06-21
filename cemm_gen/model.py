@@ -21,7 +21,7 @@ def build_cylinder(args: argparse.Namespace):
         cylinder_points_layer = cylinder_points[num_points*(current_layer-1):num_points*current_layer]
         fr_order = functional_residue.get_order_inlayer(fr_list,fr_number_inlayer)
         #cylinderを1層ずつ修飾
-        modified_fr_coord_list=cylinder.modify(cylinder_points_layer,fr_order,fr_coord_dict)
+        modified_fr_coord_list=cylinder.modify(cylinder_points_layer,fr_order,fr_coord_dict, outward=args.outward)
         for fr_name,modified_fr_coord in zip(fr_order,modified_fr_coord_list):
             atom_index=1
             for atom_name,atom_coord in zip(fr_atom_name_dict[fr_name],modified_fr_coord):
@@ -47,7 +47,7 @@ def build_sphere(args: argparse.Namespace):
     for current_sphere_point,fr_name in zip(sphere_points,fr_order):
         fr_atom_name=fr_atom_name_dict[fr_name]
         fr_atom_coord=fr_coord_dict[fr_name]
-        modify_coord=sphere.modify(current_sphere_point,fr_name,fr_atom_coord,sphere_center)
+        modify_coord=sphere.modify(current_sphere_point,fr_name,fr_atom_coord,sphere_center, outward=args.outward)
         for atom_name,atom_coord in zip(fr_atom_name,modify_coord):
             output+=(f"ATOM  {atom_index:5d}  {atom_name:4s}{fr_name}{res_num:6d}    {atom_coord[0]:8.3f}{atom_coord[1]:8.3f}{atom_coord[2]:8.3f}  1.00  0.00\n")
             atom_index+=1
@@ -106,13 +106,15 @@ class cylinder:
                 points.append((x, y, z))
         return np.array(points)-np.mean(points, axis=0), num_theta, num_z
     
-    def modify(cylinder_points_layer,fr_order,fr_coord_dict):
+    def modify(cylinder_points_layer,fr_order,fr_coord_dict, outward=False):
         modify_coord_list=[]
         layer_center=np.average(cylinder_points_layer,axis=0)
         for modify_coord,fr_name in zip(cylinder_points_layer,fr_order):
-            fr_coord =fr_coord_dict[fr_name]
+            fr_coord = fr_coord_dict[fr_name]
             translated_fr_coord=calcurate_coordinate.translation(modify_coord,fr_coord)
-            ref_vector=layer_center-modify_coord
+            ref_vector = layer_center-modify_coord
+            if outward == True:
+                ref_vector = -1 * ref_vector
             rotated_fr_coord=calcurate_coordinate.rotation(translated_fr_coord,ref_vector)
             modify_coord_list.append(rotated_fr_coord)
         return modify_coord_list
@@ -141,11 +143,13 @@ class sphere:
         
         return np.array(points)-np.mean(points, axis=0), num_points
     
-    def modify(modify_coord,fr_name,fr_coord,sphere_center):
-        translated_fr_coord=calcurate_coordinate.translation(modify_coord,fr_coord)
-        ref_vector=sphere_center-modify_coord
-        rotated_fr_coord=calcurate_coordinate.rotation(translated_fr_coord,ref_vector)
-        modify_coord=rotated_fr_coord
+    def modify(modify_coord,fr_name,fr_coord,sphere_center, outward=False):
+        translated_fr_coord = calcurate_coordinate.translation(modify_coord,fr_coord)
+        ref_vector = sphere_center-modify_coord
+        if outward == True:
+            ref_vector = -1 * ref_vector
+        rotated_fr_coord = calcurate_coordinate.rotation(translated_fr_coord,ref_vector)
+        modify_coord = rotated_fr_coord
         return modify_coord
 
 class functional_residue:
