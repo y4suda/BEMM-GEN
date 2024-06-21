@@ -29,7 +29,7 @@ cemm-gen listparam
 ## 🔭 円筒形のモデル作成
 
 ```sh:quick_example
-cemm-gen cylinder --length 100 --radius 50 --padding-radius 10 \
+cemm-gen cylinder --radius 50 --padding-radius 10 \
                   --proteinseq ASASASASAS --proteinSS CCCCCCCCCC \
                   --resnames MTY:HYD --composition 1:2.5
 ```
