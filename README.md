@@ -27,7 +27,7 @@ cemm-gen sphere --radius 20 --padding-radius 10 \
                   --resnames MTY:HYD --composition 1:2.5
 
 # Make parameters for a new residue
-cemm-gen makeparam
+cemm-gen makeparam --smiles CCC --resname MTY --description "Methyl group"
 ```
 
 **Please see the documentation [here](https://github.com/y4suda/CEMM-GEN/blob/main/tutorial_en.md)**
