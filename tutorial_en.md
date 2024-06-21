@@ -37,7 +37,7 @@ cemm-gen cylinder --length 100 --radius 50 --padding-radius 10 \
 ## 🌐 Make a spherical model
 
 ```sh:quick_example
-cemm-gen sphere --length 100 --radius 50 --padding-radius 10 \
+cemm-gen sphere --radius 50 --padding-radius 10 \
                   --proteinpdb protein.pdb \
                   --resnames MTY:HYD --composition 1:2.5
 ```
