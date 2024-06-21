@@ -40,8 +40,8 @@ def _covert_amber(args: argparse.Namespace):
 
     if args.command == "cylinder":
         leap_command += f"model = loadpdb cylinder.pdb\n"
-    # elif args.command == "sphere":
-    #     leap_command += f"model = loadpdb sphere.pdb\n"
+    elif args.command == "sphere":
+        leap_command += f"model = loadpdb sphere.pdb\n"
 
     if args.proteinpdb is not None:
         leap_command += f"protein = loadpdb {args.proteinpdb}\n"

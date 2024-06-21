@@ -15,8 +15,8 @@ def build_cylinder(args: argparse.Namespace):
     #一層あたりのfunctional_residueの数
     fr_number_inlayer = functional_residue.get_number_inlayer(fr_ratio,num_points)
     output=""
-    atom_index=0
-    res_num=0
+    atom_index=1
+    res_num=1
     for current_layer in range(1,num_layer+1):
         cylinder_points_layer = cylinder_points[num_points*(current_layer-1):num_points*current_layer]
         fr_order = functional_residue.get_order_inlayer(fr_list,fr_number_inlayer)
@@ -24,11 +24,11 @@ def build_cylinder(args: argparse.Namespace):
         modified_fr_coord_list=cylinder.modify(cylinder_points_layer,fr_order,fr_coord_dict)
         for fr_name,modified_fr_coord in zip(fr_order,modified_fr_coord_list):
             atom_index=1
-            res_num+=1
             for atom_name,atom_coord in zip(fr_atom_name_dict[fr_name],modified_fr_coord):
                 output+=(f"ATOM  {atom_index:5d}  {atom_name:4s}{fr_name}{res_num:6d}    {atom_coord[0]:8.3f}{atom_coord[1]:8.3f}{atom_coord[2]:8.3f}  1.00  0.00\n")
                 atom_index += 1
             output+="TER\n"
+            res_num+=1
     np.savetxt(f"./cylinder.pdb",[output],fmt="%s")
     return None
 
