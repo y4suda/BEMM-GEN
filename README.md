@@ -17,10 +17,14 @@ pip install -e {CEMM-GEN_dir}
 ## Basic Usage
 ```sh:available_sub-commands
 # Make a cylindrical model
-cemm-gen cylinder
+cemm-gen cylinder --radius 50 --padding-radius 10 \
+                  --proteinseq ASASASASAS --proteinSS CCCCCCCCCC \
+                  --resnames MTY:ARO --composition 1:2.5
 
 # Make a spherical model
-cemm-gen sphere
+cemm-gen sphere --radius 20 --padding-radius 10 \
+                  --proteinpdb protein.pdb \
+                  --resnames MTY:HYD --composition 1:2.5
 
 # Make parameters for a new residue
 cemm-gen makeparam
