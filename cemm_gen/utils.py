@@ -43,7 +43,7 @@ def summarize_args(args):
     print("\nSummary of user options\n")
     if "command" in args:
         print(f"Model type:\t\t{args.command}")
-    if "length" in args:
+    if "length" in args and args.length is not None:
         print(f"Length:\t\t{args.length:.2f} Å")
     if "radius" in args:
         print(f"Radius:\t\t{args.radius:.2f} Å")
