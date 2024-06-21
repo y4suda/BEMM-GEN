@@ -1,5 +1,6 @@
 # Celluar Environment Mimicking Model Geneletaor (CEMM-GEN)
-![overview](./cemm-gen_logo_horizontal.png）
+<p align="center"><br><img src="./cemm-gen_logo_horizontal.png" width="512px"><br><br>
+Cellular Environment Mimicking Model GENerator  ver. 2024.4.1<br><br><br></p>
 ## Requirements 
 
 
