@@ -42,7 +42,7 @@ def build_sphere(args: argparse.Namespace):
     output=""
     atom_index=1
     res_num=1
-    fr_order=functional_residue.get_order_inlayer(fr_list,fr_ratio/100*num_points)
+    fr_order=functional_residue.get_order_inlayer(fr_list,fr_ratio*100*num_points)
     sphere_center=np.mean(sphere_points, axis=0)
     for current_sphere_point,fr_name in zip(sphere_points,fr_order):
         fr_atom_name=fr_atom_name_dict[fr_name]
