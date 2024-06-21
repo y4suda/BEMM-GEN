@@ -77,6 +77,8 @@ def _convert_GROMACS(args: argparse.Namespace):
     parm.save(f"{args.output_prefix}.top", format="gromacs", overwrite=True)
     parm.save(f"{args.output_prefix}.gro", overwrite=True)
 
+    utils.remove_overlap(f"{args.output_prefix}.gro")
+
     utils.print_info(f"GROMACS files are created and saved. ({args.output_prefix}.top and {args.output_prefix}.gro)")
     return True
 
