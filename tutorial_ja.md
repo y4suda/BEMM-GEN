@@ -11,6 +11,12 @@ conda install -c conda-forge openbabel psi4 resp ambertools
 pip install -e {CEMM-GEN_dir}
 ```
 
+GitHubリポジトリからインストールする場合は、以下のコマンドを使用してください。
+```sh
+git clone https://github.com/y4suda/CEMM-GEN.git
+pip install CEMM-GEN
+```
+
 ## 基本的な使い方
 ```sh:available_sub-commands
 # 円筒形のモデルを作成
@@ -37,7 +43,7 @@ cemm-gen cylinder --radius 50 --padding-radius 10 \
 ## 🌐 球形のモデル作成
 
 ```sh:quick_example
-cemm-gen sphere --length 100 --radius 50 --padding-radius 10 \
+cemm-gen sphere --radius 50 --padding-radius 10 \
                   --proteinpdb protein.pdb \
                   --resnames MTY:HYD --composition 0.3:0.7
 ```

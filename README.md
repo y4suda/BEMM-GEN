@@ -30,7 +30,7 @@ cemm-gen sphere --radius 20 --padding-radius 10 \
 cemm-gen makeparam --smiles CCC --resname MTY --description "Methyl group"
 ```
 
-**Please see the documentation [here](https://github.com/y4suda/CEMM-GEN/blob/main/tutorial_en.md)**
+**Please see the documentation [English](https://github.com/y4suda/CEMM-GEN/blob/main/tutorial_en.md)/[日本語](https://github.com/y4suda/CEMM-GEN/blob/main/tutorial_ja.md)**
 ___
 
 ## Cite Us

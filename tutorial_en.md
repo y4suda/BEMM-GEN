@@ -8,7 +8,13 @@ Cellular Environment Mimicking Model GENerator  ver. 2024.4.1<br><br><br></p>
 conda create -n cemm-gen-env
 conda activate cemm-gen-env
 conda install -c conda-forge openbabel psi4 resp ambertools
-pip install -e {CEMM-GEN_dir}
+pip install {CEMM-GEN_dir}
+```
+
+To install from GitHub repository, use the following command.
+```sh
+git clone https://github.com/y4suda/CEMM-GEN.git
+pip install CEMM-GEN
 ```
 
 ## Basic Usage
@@ -37,9 +43,9 @@ cemm-gen cylinder --length 100 --radius 50 --padding-radius 10 \
 ## 🌐 Make a spherical model
 
 ```sh:quick_example
-cemm-gen sphere --radius 50 --padding-radius 10 \
+cemm-gen sphere --radius 20 --padding-radius 10 \
                   --proteinpdb protein.pdb \
-                  --resnames MTY:HYD --composition 1:2.5
+                  --resnames MTY:HYD --composition 0.3:0.7
 ```
 
 
