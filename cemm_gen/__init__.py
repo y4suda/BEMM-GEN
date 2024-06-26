@@ -54,7 +54,7 @@ def main():
         subparser.add_argument("--output-prefix", type=str, default="out", help="Prefix for output file name. (default: inward)")
 
     parser_makeparam = subparsers.add_parser("makeparam", help="Make parameter files for residues in model.")
-    parser_makeparam.add_argument("--smiles", required=True, type=str, help="SMILES file.")
+    parser_makeparam.add_argument("--smiles", type=str, help="SMILES file.")
     parser_makeparam.add_argument("--resname", required=True, type=str, help="Residue name.")
     parser_makeparam.add_argument("--description", required=True, type=str, default="Description", help="Description of the residue.")
     parser_makeparam.add_argument("--overwrite", action=argparse.BooleanOptionalAction, default=False, help="Overwrite the existing parameter files. (defailt: False)")
@@ -69,6 +69,7 @@ def main():
     parser_makeparam.add_argument("--netcharge", type=int, default=0, help="Net charge of the molecule.")
     parser_makeparam.add_argument("--multiplicity", type=int, default=1, help="Multiplicity of the molecule.")
     parser_makeparam.add_argument("--max-iter", type=int, default=500, help="Maximum number of iterations for optimization.")
+    parser_makeparam.add_argument("--peptideseq", type=str, default=None, help="Peptide sequence.")
 
     parser_listparam = subparsers.add_parser("listparam", help="List parameter files for residues in model.")
     parser_listparam.add_argument("--dump", action=argparse.BooleanOptionalAction, default=False, help="Dump the parameter files.")

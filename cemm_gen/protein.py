@@ -68,7 +68,7 @@ def validate_args(args: argparse.Namespace):
 
     return args
 
-def _make_pdb_from_sequence(sequence: str, SS: str):
+def _make_pdb_from_sequence(sequence: str, SS: str, protein_filename = "protein.pdb"):
     protein_filename = "protein.pdb"
 
     utils.print_info(f"Making protein pdb file from the sequence {sequence} and secondary structure {SS}.")

@@ -35,8 +35,9 @@ def _covert_amber(args: argparse.Namespace):
     for resname in args.resnames.split(":"):
         if resname not in available_fr_list:
             raise ValueError(f"{resname} is not available")
-        leap_command += f"loadamberparams {available_fr_list[resname]}/{resname}.frcmod\n"
-        leap_command += f"loadoff {available_fr_list[resname]}/{resname}.lib\n"
+        if os.path.getsize(f"{available_fr_list[resname]}/{resname}.lib") != 0:
+            leap_command += f"loadamberparams {available_fr_list[resname]}/{resname}.frcmod\n"
+            leap_command += f"loadoff {available_fr_list[resname]}/{resname}.lib\n"
 
     if args.command == "cylinder":
         leap_command += f"model = loadpdb cylinder.pdb\n"
@@ -99,7 +100,7 @@ def _restraint_amber(args: argparse.Namespace):
             if line.startswith("TER"):
                 is_protein = False
 
-    restraint_force = [1000, 1000, 1000]
+    restraint_force = [10000, 10000, 10000]
     print("\n------ amber_simulation.in ------")
     print(f"ntr=1,\nrestraintmask=':{protein_end+1}-{water_start-1} & @C,C1',\nrestraint_wt={restraint_force[0]}")
     print("---------------------------------\n")
@@ -116,12 +117,12 @@ def _restraint_GROMACS(args: argparse.Namespace):
     with open(f"{args.output_prefix}_norestraint.top", "r") as f:
         with open(f"{args.output_prefix}.top", "w") as g:
             is_restraint_molecule = False
-            is_restraint_protein = False
+            is_restraint_protein = None
             restraint_protein_index_list = []
             for line in f:
                 if line.startswith("[ moleculetype ]"):
-                    
-                    if is_restraint_protein == False:
+
+                    if is_restraint_protein == None:
                         is_restraint_protein = True
                     elif is_restraint_protein == True:
                         is_restraint_protein = False
@@ -131,14 +132,23 @@ def _restraint_GROMACS(args: argparse.Namespace):
                             g.write(f"{i: >5}    1    {protein_restraint_force[0]} {protein_restraint_force[1]} {protein_restraint_force[2]}\n")
                         g.write("#endif\n")
                         g.write("\n")
+                    else:
+                        pass
 
 
                     # Add position restraints of previous molecule
                     if is_restraint_molecule == True:
-                        g.write("[ position_restraints ]\n")
-                        g.write(f"{1: >5}    1    {restraint_force[0]} {restraint_force[1]} {restraint_force[2]}\n")
-                        g.write(f"{2: >5}    1    {restraint_force[0]} {restraint_force[1]} {restraint_force[2]}\n")
-                        g.write("\n")
+                        if "system" in molecule_name:
+                            # restraint for ACE
+                            g.write("[ position_restraints ]\n")
+                            g.write(f"{2: >5}    1    {restraint_force[0]} {restraint_force[1]} {restraint_force[2]}\n")
+                            g.write(f"{5: >5}    1    {restraint_force[0]} {restraint_force[1]} {restraint_force[2]}\n")
+                            g.write("\n")
+                        else:
+                            g.write("[ position_restraints ]\n")
+                            g.write(f"{1: >5}    1    {restraint_force[0]} {restraint_force[1]} {restraint_force[2]}\n")
+                            g.write(f"{2: >5}    1    {restraint_force[0]} {restraint_force[1]} {restraint_force[2]}\n")
+                            g.write("\n")
                         is_restraint_molecule = False
 
 
@@ -147,8 +157,15 @@ def _restraint_GROMACS(args: argparse.Namespace):
                     molecule_name_line = f.readline()
                     g.write(molecule_name_line)
                     molecule_name = molecule_name_line.split()[0]
+
+                    # ligand-like residues
                     if molecule_name in residue_list:
                         is_restraint_molecule = True
+
+                    # peptide-like residues
+                    if molecule_name != "system1" and "system" in molecule_name:
+                        is_restraint_molecule = True
+                    
                     continue
                     
                 if is_restraint_protein == True:
