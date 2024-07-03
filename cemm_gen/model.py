@@ -1,6 +1,7 @@
 import argparse
 import numpy as np
 import random
+import scipy
 from . import utils
 from . import make_param
 
@@ -83,7 +84,18 @@ class calcurate_coordinate:
         rotation_matrix = np.eye(3) + np.sin(angle) * K + (1 - np.cos(angle)) * np.dot(K, K)
 
         rotated_fr_coord = np.dot(coords, rotation_matrix.T)
-        return rotated_fr_coord+original_fr_center
+
+        # Random rotation to avoid atomic crash
+        random_theta = np.random.uniform(0, np.pi)
+        random_axis = ref_axis
+        random_axis = random_axis / np.linalg.norm(random_axis)
+        K = np.array([[0, -random_axis[2], random_axis[1]],
+                        [random_axis[2], 0, -random_axis[0]],
+                        [-random_axis[1], random_axis[0], 0]])
+        rotation_matrix = np.eye(3) + np.sin(random_theta) * K + (1 - np.cos(random_theta)) * np.dot(K, K)
+        rotated_fr_coord_randomized = np.dot(rotated_fr_coord, rotation_matrix.T)
+
+        return rotated_fr_coord_randomized + original_fr_center
     
 class cylinder:
     def generate(r, l, d):
