@@ -1,7 +1,6 @@
 import argparse
 import numpy as np
 import random
-import scipy
 from . import utils
 from . import make_param
 
