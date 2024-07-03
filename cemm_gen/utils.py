@@ -12,7 +12,7 @@ def setup_logger(log_level: str):
 
     if logger.hasHandlers():
         logger.handlers.clear()
-        
+
     fh = FileHandler("CEMM-GEN.log")
     fh.setLevel(DEBUG)
     formatter = Formatter("%(asctime)s - %(levelname)s - %(message)s")
@@ -127,20 +127,17 @@ def remove_overlap(filename: str):
 
 
     block_size = min(len(atom_coordinate_float), 10000)
-    is_overlap =[[True] *(len(atom_coordinate_float)//block_size+1) for i in range(len(atom_coordinate_float)//block_size+1)]
+    is_overlap =[[True] *((len(atom_coordinate_float)-1)//block_size+1) for i in range((len(atom_coordinate_float)-1)//block_size+1)]
 
     print_info("Removing atomic clashes...")
 
     removing_cycle = 10
     for cycle in range(removing_cycle):
         print(f"Starting cycle {cycle}")
-        #距離行列の作成      
-        for block_A in range(0, len(atom_coordinate_float)//block_size+1):
-
-            for block_B in range(0, len(atom_coordinate_float)//block_size+1):
-
+        #距離行列の作成
+        for block_A in range(0, (len(atom_coordinate_float)-1)//block_size+1):
+            for block_B in range(0, (len(atom_coordinate_float)-1)//block_size+1):
                 dist = distance.cdist(atom_coordinate_float[block_A*block_size:(block_A+1)*block_size], atom_coordinate_float[block_B*block_size:(block_B+1)*block_size], 'euclidean')
-
                 #オーバーラップの検出
                 cutoff = 0.05
                 overlap = np.where((dist > 0)&(dist < cutoff))
@@ -163,9 +160,9 @@ def remove_overlap(filename: str):
                     else:
                         atom_b_n = atom_b + np.random.rand(3) * (cutoff/2)
                     atom_coordinate_float[j[1]] = atom_b_n
-                    
+        
         if not any(np.array(is_overlap).flatten()):
-            print("Complete removing atomic crashes. There is no overlap.") 
+            print_info("Complete removing atomic crashes. There is no overlap.") 
             break
         if cycle == removing_cycle-1:
             print_warning(f"There are still overlaps after {removing_cycle} cycles. Please check the output file carefully.")
