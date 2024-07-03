@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import sys
 import argparse
 from . import utils
 from . import protein
@@ -6,8 +7,14 @@ from . import model
 from . import convert
 from . import make_param
 
+__version__ = "2024.7"
 def main():
     
+    logger = utils.setup_logger("INFO")
+    logger.info(f" ")
+    logger.info(f"Start CEMM-GEN. Version: {__version__}")
+    logger.info("Command line arguments: " + " ".join(sys.argv))
+
     print("""
           
  ██████╗███████╗███╗   ███╗███╗   ███╗       ██████╗ ███████╗███╗   ██╗
@@ -114,3 +121,4 @@ def main():
     print("T. Yasuda, R. Morita, Y. Shigeta and R. Harada. (2024) \"Cellular Environment Mimicking Model GENerator: A tool for generating a cellular environment mimicking model.\"")
     print("")
     
+    logger.info("End CEMM-GEN.")
