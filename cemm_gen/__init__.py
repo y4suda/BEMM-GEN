@@ -1,21 +1,27 @@
 # -*- coding: utf-8 -*-
+import os
 import sys
 import argparse
+from importlib.metadata import version, PackageNotFoundError
 from . import utils
 from . import protein
 from . import model
 from . import convert
 from . import make_param
 
-__version__ = "2024.7"
 def main():
     
+    try:
+        __version__ = version("your-package-name")
+    except PackageNotFoundError:
+        __version__ = "0.0.0"
+
     logger = utils.setup_logger("INFO")
     logger.info(f" ")
     logger.info(f"Start CEMM-GEN. Version: {__version__}")
     logger.info("Command line arguments: " + " ".join(sys.argv))
 
-    print("""
+    print(f"""
           
  ██████╗███████╗███╗   ███╗███╗   ███╗       ██████╗ ███████╗███╗   ██╗
 ██╔════╝██╔════╝████╗ ████║████╗ ████║      ██╔════╝ ██╔════╝████╗  ██║
@@ -24,7 +30,7 @@ def main():
 ╚██████╗███████╗██║ ╚═╝ ██║██║ ╚═╝ ██║      ╚██████╔╝███████╗██║ ╚████║
  ╚═════╝╚══════╝╚═╝     ╚═╝╚═╝     ╚═╝       ╚═════╝ ╚══════╝╚═╝  ╚═══╝
           
-          Cellular Environment Mimicking Model GENerator  ver 0.01
+          Cellular Environment Mimicking Model GENerator  {__version__}
 
                 T. Yasuda, R. Morita, Y. Shigeta and R. Harada. (2024)
           
