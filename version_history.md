@@ -1,5 +1,5 @@
 # Version History
 
-## ver 0.02
+## ver 2024.7.19
+### The first release of CEMM-GEN🎉
 
-## ver 0.01

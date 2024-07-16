@@ -1,37 +1,34 @@
 <p align="center"><br><img src="./cemm-gen_logo_horizontal.png" width="512px"><br><br>
-Cellular Environment Mimicking Model GENerator  ver. 2024.4.1<br><br><br></p>
+Cellular Environment Mimicking Model GENerator  ver. 2024.7.19<br><br><br></p>
 
 # Welcome to CEMM-GEN
 
 ## What is CEMM-GEN?
 CEMM-GEN is a new tool aiming to generate cellular environment mimicking model for molecular dynamics simulation. CEMM-GEN provides a configuration with any modification group added to the spherical or cylinder-like interior. 
-##
-___
+
 ## Instllation 
 ```sh
 conda create -n cemm-gen-env
 conda activate cemm-gen-env
 conda install -c conda-forge openbabel psi4 resp ambertools
-pip install -e {CEMM-GEN_dir}
+pip install cemm-gen
 ```
 ## Basic Usage
 ```sh:available_sub-commands
 # Make a cylindrical model
-cemm-gen cylinder --radius 50 --padding-radius 10 \
-                  --proteinseq ASASASASAS --proteinSS CCCCCCCCCC \
-                  --resnames MTY:ARO --composition 1:2.5
+cemm-gen cylinder --proteinseq GASGASGASGAS --proteinSS HHHHHHHHHHHH --resnames MTY:HYD --composition 1:2.5
 
 # Make a spherical model
-cemm-gen sphere --radius 20 --padding-radius 10 \
-                  --proteinpdb protein.pdb \
-                  --resnames MTY:HYD --composition 1:2.5
+cemm-gen sphere --proteinpdb protein.pdb --resnames MTY:HYD --composition 0.3:0.7
 
 # Make parameters for a new residue
 cemm-gen makeparam --smiles CCC --resname MTY --description "Methyl group"
 ```
 
-**Please see the documentation [English](https://github.com/y4suda/CEMM-GEN/blob/main/tutorial_en.md)/[日本語](https://github.com/y4suda/CEMM-GEN/blob/main/tutorial_ja.md)**
-___
+**Please see the documentation [English](https://github.com/y4suda/CEMM-GEN/blob/main/tutorial_en.md) / [日本語](https://github.com/y4suda/CEMM-GEN/blob/main/tutorial_ja.md)**
+
+## Version History
+See the [version history](./version_history.md) for the latest updates.
 
 ## Cite Us
 T. Yasuda, R. Morita, Y. Shigeta and R. Harada. "Cellular Environment Mimicking Model GENerator: A tool for generating a cellular environment mimicking model."*XXXX*,2024,XXXX,[doi](https://XXX)
