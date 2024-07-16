@@ -102,9 +102,11 @@ def _restraint_amber(args: argparse.Namespace):
                 is_protein = False
 
     restraint_force = [10000, 10000, 10000]
-    print("\n------ amber_simulation.in ------")
+    print("\n------ amber_restraint.in ------")
     print(f"ntr=1,\nrestraintmask=':{protein_end+1}-{water_start-1} & @C,C1',\nrestraint_wt={restraint_force[0]}")
     print("---------------------------------\n")
+    with open("amber_restraint.in", "w") as writer:
+        writer.write(f"ntr=1,\nrestraintmask=':{protein_end+1}-{water_start-1} & @C,C1',\nrestraint_wt={restraint_force[0]}")
 
     return True
 
@@ -236,6 +238,7 @@ def _remove_overlap(filename: str):
             break
         if cycle == removing_cycle-1:
             utils.print_warning(f"There are still overlaps after {removing_cycle} cycles. Please check the output file carefully.")
+            utils.print_info("Changing options \"--min-distance\", and \"--padding-radius\" to larger values might help to avoid overlaps.")
 
     with open(gro_file_name, "w") as writer:
         with open(gro_file_name.replace(".gro","_orig.gro"), "r") as f:
