@@ -12,7 +12,7 @@ from . import make_param
 def main():
     
     try:
-        __version__ = version("your-package-name")
+        __version__ = version(__package__)
     except PackageNotFoundError:
         __version__ = "0.0.0"
 
