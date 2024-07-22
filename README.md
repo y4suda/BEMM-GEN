@@ -11,7 +11,7 @@ CEMM-GEN is a new tool aiming to generate cellular environment mimicking model f
 <br><br><br><br><br><br><br><br><br>
 
 ## Requirements
-Python >= 3.8, openbabel, psi4, resp, ambertools, scikit-learn, rdkit, parmed 
+Python >= 3.8, conda, openbabel, psi4, resp, ambertools, scikit-learn, rdkit, parmed 
 
 ## Instllation 
 ```sh
