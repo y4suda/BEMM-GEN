@@ -26,7 +26,7 @@ dependencies = [
 packages = ["cemm_gen"]
 
 [tool.setuptools.package-data]
-"cemm_gen" = ["share/*"]
+"cemm_gen" = ["cemm_gen/share/*"]
 
 [project.scripts]
 cemm-gen = "cemm_gen:main"
