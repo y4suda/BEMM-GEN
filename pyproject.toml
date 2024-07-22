@@ -23,7 +23,6 @@ dependencies = [
 [project.optional-dependencies]
 
 [tool.setuptools]
-package-dir = {"" = "src"}
 packages = ["cemm_gen"]
 
 [tool.setuptools.package-data]
