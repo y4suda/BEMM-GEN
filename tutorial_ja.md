@@ -66,8 +66,6 @@ CEMM-GEN ではモデル内に配置する残基の組成を指定すること�
 
 1. 残基の種類を指定する `--resnames XX:YY:ZZ:..`
 
-   使用可能な残基は　`cemm-gen listparam` で参照してください
-
 2. 各残基の割合を指定する `--resnames i:j:k:..`
 
 3. (オプション） 残期間の最小距離を指定する　　`--min-distance　i [Å]　(defalt:4.0)`
