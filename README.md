@@ -2,9 +2,13 @@
 Cellular Environment Mimicking Model GENerator  ver. 2024.07.22<br><br><br></p>
 
 # Welcome to CEMM-GEN
+<p align="center"><br><img src="./cemm-gen_main.png" width="800px"></p>
+
 
 ## What is CEMM-GEN?
+<img src="./cemm-gen_scheme.png" align="right" width="400px">
 CEMM-GEN is a new tool aiming to generate cellular environment mimicking model for molecular dynamics simulation. CEMM-GEN provides a configuration with any modification group added to the spherical or cylinder-like interior. 
+<br><br><br><br><br><br><br><br><br>
 
 ## Instllation 
 ```sh
