@@ -31,7 +31,9 @@ jobs:
       run: echo "VERSION=${GITHUB_REF/refs/tags/v/}" >> $GITHUB_ENV
     - name: Update version in pyproject.toml
       run: |
-        sed -i -e "s/^version = \".*\"/version = \"${{ env.VERSION }}\"/g" pyproject.toml
+        sed -i -e "s/^version = \".*\"/version = \"$VERSION\"/g" pyproject.toml
+      env:
+        VERSION: ${{ env.VERSION }}
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
