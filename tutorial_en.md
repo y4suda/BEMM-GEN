@@ -44,6 +44,7 @@ cemm-gen cylinder --proteinseq GASGASGASGAS --proteinSS HHHHHHHHHHHH --resnames 
 cemm-gen sphere --proteinpdb protein.pdb --resnames MTY:HYD --composition 0.3:0.7
 ```
 
+##
 
 ## 🍳 Protein structure input or generation
 CEMM-GEN can place a protein structure in the generated model. There are two ways to specify a protein structure.
@@ -63,6 +64,17 @@ If `--length` of `cylinder` is specified and the protein protrudes, a warning is
 Please check the final structure carefully.
 If `--radius` is specified, an error will be returned if the protein size protrudes.
 To create a model that fits the size of the protein, use `--padding-radius`.
+
+## 🎨 Specify the chemical properties within models 
+CEMM-GEN can specify probability of the functional residues. 
+
+1. Specify residue type `--resnames XX:YY:ZZ:..`
+
+2. Speficy residue populations `--resnames i:j:k:..`
+
+3. (Optinal） Specify min-distance between each residues 　　`--min-distance　i [Å]　(defalt:4.0)`
+
+##
 
 
 ## 📖 List of available residue parameters
