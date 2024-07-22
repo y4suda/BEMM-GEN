@@ -1,1 +1,1 @@
-include cemm_gen/share/*
+graft cemm_gen/share
