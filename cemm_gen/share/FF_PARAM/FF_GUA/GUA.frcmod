@@ -1,45 +1,47 @@
 Remark line goes here
 MASS
-n7 14.010        0.530               same as n3 
-n8 14.010        0.530               same as n3 
+nu 14.010        0.530               same as nh 
+nv 14.010        0.530               same as nh 
 
 BOND
-c3-n7  325.90   1.465       same as c3-n3, penalty score=  0.0
-hn-n7  392.40   1.019       same as hn-n3, penalty score=  0.0
-c3-n8  325.90   1.465       same as c3-n3, penalty score=  0.0
-hn-n8  392.40   1.019       same as hn-n3, penalty score=  0.0
+c3-nu  326.60   1.464       same as c3-nh, penalty score=  0.0
+c2-nu  416.20   1.387       same as c2-nh, penalty score=  0.0
+hn-nu  404.60   1.012       same as hn-nh, penalty score=  0.0
+c2-nv  416.20   1.387       same as c2-nh, penalty score=  0.0
+hn-nv  404.60   1.012       same as hn-nh, penalty score=  0.0
 
 ANGLE
-c3-c3-n7   66.000     111.040   same as c3-c3-n3, penalty score=  0.0
-c3-n7-c3   63.800     112.350   same as c3-n3-c3, penalty score=  0.0
-c3-n7-hn   47.400     109.290   same as c3-n3-hn, penalty score=  0.0
-h1-c3-n7   49.500     109.880   same as h1-c3-n3, penalty score=  0.0
-n7-c3-n8   69.300     111.230   same as n3-c3-n3, penalty score=  0.0
-h3-c3-n7   49.800     108.730   same as h3-c3-n3, penalty score=  0.0
-c3-n8-hn   47.400     109.290   same as c3-n3-hn, penalty score=  0.0
-n8-c3-n8   69.300     111.230   same as n3-c3-n3, penalty score=  0.0
-h3-c3-n8   49.800     108.730   same as h3-c3-n3, penalty score=  0.0
-hn-n8-hn   41.400     106.400   same as hn-n3-hn, penalty score=  0.0
+c3-c3-nu   66.200     110.460   same as c3-c3-nh, penalty score=  0.0
+c2-nu-c3   62.400     123.710   same as c2-nh-c3, penalty score=  0.0
+c3-nu-hn   46.100     115.990   same as c3-nh-hn, penalty score=  0.0
+h1-c3-nu   49.600     109.790   same as h1-c3-nh, penalty score=  0.0
+n2-c2-nu   71.800     124.270   same as n2-c2-nh, penalty score=  0.0
+nu-c2-nv   72.700     112.820   same as nh-c2-nh, penalty score=  0.0
+c2-nu-hn   48.600     115.090   same as c2-nh-hn, penalty score=  0.0
+c2-nv-hn   48.600     115.090   same as c2-nh-hn, penalty score=  0.0
+n2-c2-nv   71.800     124.270   same as n2-c2-nh, penalty score=  0.0
+hn-nv-hn   40.100     115.120   same as hn-nh-hn, penalty score=  0.0
 
 DIHE
-c3-c3-n7-c3   1    0.300         0.000          -3.000      same as c3-c3-n3-c3
-c3-c3-n7-c3   1    0.480       180.000           2.000      same as c3-c3-n3-c3, penalty score=  0.0
-c3-c3-n7-hn   6    1.800         0.000           3.000      same as X -c3-n3-X , penalty score=  0.0
-n8-c3-n7-c3   6    1.800         0.000           3.000      same as X -c3-n3-X , penalty score=  0.0
-h3-c3-n7-c3   6    1.800         0.000           3.000      same as X -c3-n3-X , penalty score=  0.0
-n7-c3-n8-hn   6    1.800         0.000           3.000      same as X -c3-n3-X , penalty score=  0.0
-n8-c3-n8-hn   6    1.800         0.000           3.000      same as X -c3-n3-X , penalty score=  0.0
-h1-c3-n7-c3   6    1.800         0.000           3.000      same as X -c3-n3-X , penalty score=  0.0
-h1-c3-n7-hn   6    1.800         0.000           3.000      same as X -c3-n3-X , penalty score=  0.0
-n8-c3-n7-hn   6    1.800         0.000           3.000      same as X -c3-n3-X , penalty score=  0.0
-h3-c3-n7-hn   6    1.800         0.000           3.000      same as X -c3-n3-X , penalty score=  0.0
-h3-c3-n8-hn   6    1.800         0.000           3.000      same as X -c3-n3-X , penalty score=  0.0
+c3-c3-nu-c2   6    0.000         0.000           2.000      same as X -c3-nh-X , penalty score=  0.0
+c3-c3-nu-hn   6    0.000         0.000           2.000      same as X -c3-nh-X , penalty score=  0.0
+n2-c2-nu-c3   4    2.700       180.000           2.000      same as X -c2-nh-X , penalty score=  0.0
+nv-c2-nu-c3   4    2.700       180.000           2.000      same as X -c2-nh-X , penalty score=  0.0
+nu-c2-nv-hn   4    2.700       180.000           2.000      same as X -c2-nh-X , penalty score=  0.0
+n2-c2-nv-hn   4    2.700       180.000           2.000      same as X -c2-nh-X , penalty score=  0.0
+h1-c3-nu-c2   6    0.000         0.000           2.000      same as X -c3-nh-X , penalty score=  0.0
+h1-c3-nu-hn   6    0.000         0.000           2.000      same as X -c3-nh-X , penalty score=  0.0
+n2-c2-nu-hn   4    2.700       180.000           2.000      same as X -c2-nh-X , penalty score=  0.0
+nv-c2-nu-hn   4    2.700       180.000           2.000      same as X -c2-nh-X , penalty score=  0.0
 
 IMPROPER
+c2-c3-nu-hn         1.1          180.0         2.0          Using the default value
+n2-nu-c2-nv         1.1          180.0         2.0          Using the default value
+c2-hn-nv-hn         1.1          180.0         2.0          Using the default value
 
 NONBON
-  n7          1.8240  0.1700             same as n3 
-  n8          1.8240  0.1700             same as n3 
+  nu          1.8240  0.1700             same as nh 
+  nv          1.8240  0.1700             same as nh 
 
 
 

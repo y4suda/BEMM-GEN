@@ -1,5 +1,5 @@
 <p align="center"><br><img src="./cemm-gen_logo_horizontal.png" width="512px"><br><br>
-Cellular Environment Mimicking Model GENerator  ver. 2024.7.19<br><br><br></p>
+Cellular Environment Mimicking Model GENerator  ver. 2024.07.22<br><br><br></p>
 
 # Welcome to CEMM-GEN
 
@@ -34,7 +34,7 @@ See the [version history](./version_history.md) for the latest updates.
 T. Yasuda, R. Morita, Y. Shigeta and R. Harada. "Cellular Environment Mimicking Model GENerator: A tool for generating a cellular environment mimicking model."*XXXX*,2024,XXXX,[doi](https://XXX)
 
 ## Authors
-Takunori Yasuda, Doctoral Program in Biology  
+Takunori Yasuda, Doctoral Program in Biology, University of Tsukuba
 Rikuri Morita, Center for Computational Sciences, University of Tsukuba  
 Yasuteru Shigeta, Center for Computational Sciences, University of Tsukuba  
 Ryuhei Harada, Center for Computational Sciences, University of Tsukuba  
