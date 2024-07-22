@@ -10,6 +10,9 @@ Cellular Environment Mimicking Model GENerator <br><br><br></p>
 CEMM-GEN is a new tool aiming to generate cellular environment mimicking model for molecular dynamics simulation. CEMM-GEN provides a configuration with any modification group added to the spherical or cylinder-like interior. 
 <br><br><br><br><br><br><br><br><br>
 
+## Requirements
+Python >= 3.8, openbabel, psi4, resp, ambertools, scikit-learn, rdkit, parmed 
+
 ## Instllation 
 ```sh
 conda create -n cemm-gen-env
