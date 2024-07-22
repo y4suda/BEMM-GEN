@@ -1,5 +1,8 @@
 # -*- coding: utf-8 -*-
+import os
+import sys
 import argparse
+from importlib.metadata import version, PackageNotFoundError
 from . import utils
 from . import protein
 from . import model
@@ -8,7 +11,17 @@ from . import make_param
 
 def main():
     
-    print("""
+    try:
+        __version__ = version(__package__)
+    except PackageNotFoundError:
+        __version__ = "0.0.0"
+
+    logger = utils.setup_logger("INFO")
+    logger.info(f" ")
+    logger.info(f"Start CEMM-GEN. Version: {__version__}")
+    logger.info("Command line arguments: " + " ".join(sys.argv))
+
+    print(f"""
           
  ██████╗███████╗███╗   ███╗███╗   ███╗       ██████╗ ███████╗███╗   ██╗
 ██╔════╝██╔════╝████╗ ████║████╗ ████║      ██╔════╝ ██╔════╝████╗  ██║
@@ -17,7 +30,7 @@ def main():
 ╚██████╗███████╗██║ ╚═╝ ██║██║ ╚═╝ ██║      ╚██████╔╝███████╗██║ ╚████║
  ╚═════╝╚══════╝╚═╝     ╚═╝╚═╝     ╚═╝       ╚═════╝ ╚══════╝╚═╝  ╚═══╝
           
-          Cellular Environment Mimicking Model GENerator  ver 0.01
+          Cellular Environment Mimicking Model GENerator  {__version__}
 
                 T. Yasuda, R. Morita, Y. Shigeta and R. Harada. (2024)
           
@@ -54,7 +67,7 @@ def main():
         subparser.add_argument("--output-prefix", type=str, default="out", help="Prefix for output file name. (default: inward)")
 
     parser_makeparam = subparsers.add_parser("makeparam", help="Make parameter files for residues in model.")
-    parser_makeparam.add_argument("--smiles", required=True, type=str, help="SMILES file.")
+    parser_makeparam.add_argument("--smiles", type=str, help="SMILES file.")
     parser_makeparam.add_argument("--resname", required=True, type=str, help="Residue name.")
     parser_makeparam.add_argument("--description", required=True, type=str, default="Description", help="Description of the residue.")
     parser_makeparam.add_argument("--overwrite", action=argparse.BooleanOptionalAction, default=False, help="Overwrite the existing parameter files. (defailt: False)")
@@ -69,6 +82,7 @@ def main():
     parser_makeparam.add_argument("--netcharge", type=int, default=0, help="Net charge of the molecule.")
     parser_makeparam.add_argument("--multiplicity", type=int, default=1, help="Multiplicity of the molecule.")
     parser_makeparam.add_argument("--max-iter", type=int, default=500, help="Maximum number of iterations for optimization.")
+    parser_makeparam.add_argument("--peptideseq", type=str, default=None, help="Peptide sequence.")
 
     parser_listparam = subparsers.add_parser("listparam", help="List parameter files for residues in model.")
     parser_listparam.add_argument("--dump", action=argparse.BooleanOptionalAction, default=False, help="Dump the parameter files.")
@@ -113,3 +127,4 @@ def main():
     print("T. Yasuda, R. Morita, Y. Shigeta and R. Harada. (2024) \"Cellular Environment Mimicking Model GENerator: A tool for generating a cellular environment mimicking model.\"")
     print("")
     
+    logger.info("End CEMM-GEN.")

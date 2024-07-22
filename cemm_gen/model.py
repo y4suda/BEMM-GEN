@@ -9,7 +9,7 @@ def build_cylinder(args: argparse.Namespace):
     fr_list = args.resnames.split(":")
     fr_ratio = np.array(list(map(float,args.composition.split(":"))))/sum(list(map(float,args.composition.split(":"))))
     #fr周りの情報読み込み
-    fr_atom_name_dict,fr_coord_dict = functional_residue.load_mol2(fr_list)
+    fr_atom_name_dict, fr_coord_dict, fr_resid_dict, fr_resname_dict = functional_residue.load_mol2(fr_list)
     #cylinderの生成
     cylinder_points,num_points,num_layer = cylinder.generate(args.radius, args.length, args.min_distance)
     #一層あたりのfunctional_residueの数
@@ -24,8 +24,8 @@ def build_cylinder(args: argparse.Namespace):
         modified_fr_coord_list=cylinder.modify(cylinder_points_layer,fr_order,fr_coord_dict, outward=args.outward)
         for fr_name,modified_fr_coord in zip(fr_order,modified_fr_coord_list):
             atom_index=1
-            for atom_name,atom_coord in zip(fr_atom_name_dict[fr_name],modified_fr_coord):
-                output+=(f"ATOM  {atom_index:5d}  {atom_name:4s}{fr_name}{res_num:6d}    {atom_coord[0]:8.3f}{atom_coord[1]:8.3f}{atom_coord[2]:8.3f}  1.00  0.00\n")
+            for atom_name,atom_coord, resid, resname in zip(fr_atom_name_dict[fr_name],modified_fr_coord, fr_resid_dict[fr_name], fr_resname_dict[fr_name]):
+                output+=(f"ATOM  {atom_index:5d}  {atom_name:4s}{resname}{resid:6d}    {atom_coord[0]:8.3f}{atom_coord[1]:8.3f}{atom_coord[2]:8.3f}  1.00  0.00\n")
                 atom_index += 1
             output+="TER\n"
             res_num+=1
@@ -36,7 +36,7 @@ def build_sphere(args: argparse.Namespace):
     fr_list = args.resnames.split(":")
     fr_ratio = np.array(list(map(float,args.composition.split(":"))))/sum(list(map(float,args.composition.split(":"))))
     #fr周りの情報読み込み
-    fr_atom_name_dict,fr_coord_dict = functional_residue.load_mol2(fr_list)
+    fr_atom_name_dict, fr_coord_dict, fr_resid_dict, fr_resname_dict = functional_residue.load_mol2(fr_list)
     #cylinderの生成
     sphere_points,num_points = sphere.generate(args.radius,args.min_distance)
     output=""
@@ -48,8 +48,8 @@ def build_sphere(args: argparse.Namespace):
         fr_atom_name=fr_atom_name_dict[fr_name]
         fr_atom_coord=fr_coord_dict[fr_name]
         modify_coord=sphere.modify(current_sphere_point,fr_name,fr_atom_coord,sphere_center, outward=args.outward)
-        for atom_name,atom_coord in zip(fr_atom_name,modify_coord):
-            output+=(f"ATOM  {atom_index:5d}  {atom_name:4s}{fr_name}{res_num:6d}    {atom_coord[0]:8.3f}{atom_coord[1]:8.3f}{atom_coord[2]:8.3f}  1.00  0.00\n")
+        for atom_name, atom_coord, resid, resname in zip(fr_atom_name, modify_coord, fr_resid_dict[fr_name], fr_resname_dict[fr_name]):
+            output+=(f"ATOM  {atom_index:5d}  {atom_name:4s}{resname}{resid:6d}    {atom_coord[0]:8.3f}{atom_coord[1]:8.3f}{atom_coord[2]:8.3f}  1.00  0.00\n")
             atom_index+=1
         res_num+=1
         output+="TER\n"
@@ -83,7 +83,18 @@ class calcurate_coordinate:
         rotation_matrix = np.eye(3) + np.sin(angle) * K + (1 - np.cos(angle)) * np.dot(K, K)
 
         rotated_fr_coord = np.dot(coords, rotation_matrix.T)
-        return rotated_fr_coord+original_fr_center
+
+        # Random rotation to avoid atomic crash
+        random_theta = np.random.uniform(0, np.pi)
+        random_axis = ref_axis
+        random_axis = random_axis / np.linalg.norm(random_axis)
+        K = np.array([[0, -random_axis[2], random_axis[1]],
+                        [random_axis[2], 0, -random_axis[0]],
+                        [-random_axis[1], random_axis[0], 0]])
+        rotation_matrix = np.eye(3) + np.sin(random_theta) * K + (1 - np.cos(random_theta)) * np.dot(K, K)
+        rotated_fr_coord_randomized = np.dot(rotated_fr_coord, rotation_matrix.T)
+
+        return rotated_fr_coord_randomized + original_fr_center
     
 class cylinder:
     def generate(r, l, d):
@@ -179,7 +190,10 @@ class functional_residue:
             raise ValueError(f"{name} is not available")
         
         file_name=f"{available_fr_list[name]}/{name}.mol2"
-        fr_coord,fr_atom_name=[],[]
+        fr_coord = []
+        fr_atom_name = []
+        fr_resid = []
+        fr_resname = []
         with open(file_name) as mol2_file:
             for atom_data in mol2_file:
                 if atom_data.startswith('@<TRIPOS>ATOM'):
@@ -194,11 +208,17 @@ class functional_residue:
                     coord = list(map(float,atom_info[2:5]))
                     fr_atom_name.append(atom_name)
                     fr_coord.append(coord)
-        return np.array(fr_atom_name),np.array(fr_coord)
+                    fr_resname.append(atom_info[7])
+                    fr_resid.append(int(atom_info[6]))
+        ## 辞書にして簡素化できるはず
+        return np.array(fr_atom_name),np.array(fr_coord), np.array(fr_resid), np.array(fr_resname)
 
     #functional_residueのmol2ファイルをlistとして受ける
     def load_mol2(fr_list):
-        fr_atom_name_dict,fr_coord_dict={},{}
+        fr_atom_name_dict = {}
+        fr_coord_dict = {}
+        fr_resid_dict = {}
+        fr_resname_dict = {}
         for fr_name in fr_list:
-            fr_atom_name_dict[fr_name],fr_coord_dict[fr_name] = functional_residue.load_mol2_file(fr_name)
-        return fr_atom_name_dict,fr_coord_dict
+            fr_atom_name_dict[fr_name],fr_coord_dict[fr_name], fr_resid_dict[fr_name], fr_resname_dict[fr_name] = functional_residue.load_mol2_file(fr_name)
+        return fr_atom_name_dict,fr_coord_dict, fr_resid_dict, fr_resname_dict

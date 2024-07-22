@@ -1,6 +1,6 @@
 [project]
-name = "CEMM-GEN"
-version = "2024.4.1"
+name = "cemm-gen"
+version = "0.0.0"
 authors = [{ name="Takunori Yasuda", email="yasuda.takunori.tkb_gb@u.tsukuba.ac.jp"}, { name="Rikuri Morita", email="mriky.25@gmail.com"}]
 description = "Cellular Environment Mimicking Model GENerator"
 readme = "README.md"
@@ -12,7 +12,7 @@ classifiers = [
     "Operating System :: OS Independent",
     "Development Status :: 4 - Beta"
 ]
-keywords = ["bioinfomatic", "molecular dynamics", "biology"]
+keywords = ["bioinfomatic", "molecular dynamics", "biology", "chemoinformatics"]
 
 dependencies = [
   "scikit-learn",

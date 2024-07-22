@@ -236,11 +236,198 @@ def _round_mol2_charge(mol2_file):
             f.write(line)
 
 
+def _remove_hydrogen_from_mol2(mol2_file):
+    output = ""
+    current_section = None
+    all_atom_lines = []
+    all_bond_list = []
+    atom_index_converter = {}
+    with open(mol2_file, "r") as f:
+        for line in f:
+            if line.startswith("@<TRIPOS>"):
+
+                if current_section == "ATOM":
+                    max_index_digit = len(str(len(all_atom_lines)))
+                    for i, atom_line in enumerate(all_atom_lines):
+                        atom_line = f"{i+1: >{max_index_digit}} " + atom_line[max_index_digit+1:]
+                        output += atom_line
+                        atom_index_converter[int(atom_line.split()[0])] = i+1
+
+                if current_section == "BOND":
+                    bond_index = 1
+                    for bond in all_bond_list:
+                        bond_parts = bond.split()
+                        if int(bond_parts[1]) in atom_index_converter.keys() and int(bond_parts[2]) in atom_index_converter.keys():
+                            bond_parts[0] = bond_index
+                            bond_parts[1] = str(atom_index_converter[int(bond_parts[1])])
+                            bond_parts[2] = str(atom_index_converter[int(bond_parts[2])])
+                            output += " ".join([f"{s: >4}" for s in bond_parts])
+                            output += "\n"
+                            bond_index += 1
+
+                current_section = line.removeprefix("@<TRIPOS>").strip()
+                output += line
+                continue
+            if current_section == "ATOM":
+                if line.split()[1].startswith("H"):
+                    continue
+                all_atom_lines.append(line)
+                continue
+            if current_section == "BOND":
+                all_bond_list.append(line)
+                continue
+
+            output += line
+    with open(mol2_file, "w") as f:
+        f.write(output)
+
+    return True
+
+def _swap_mol2_ACE(mol2_file, atom1_index, atom2_index):
+    
+    output = ""
+    current_section = None
+    all_atom_lines = []
+    all_bond_list = []
+    with open(mol2_file, "r") as f:
+        for line in f:
+            if line.startswith("@<TRIPOS>"):
+
+                if current_section == "ATOM":
+                    max_index_digit = len(str(len(all_atom_lines)))
+                    all_atom_lines[atom1_index-1] = f"{atom2_index: >{max_index_digit}} " + all_atom_lines[atom1_index-1].removeprefix(f"{atom1_index: >{max_index_digit}} ")
+                    all_atom_lines[atom2_index-1] = f"{atom1_index: >{max_index_digit}} " + all_atom_lines[atom2_index-1].removeprefix(f"{atom2_index: >{max_index_digit}} ")
+                    swap_temp = all_atom_lines[atom1_index-1]
+                    all_atom_lines[atom1_index-1] = all_atom_lines[atom2_index-1]
+                    all_atom_lines[atom2_index-1] = swap_temp
+                    output += "".join(all_atom_lines)
+                if current_section == "BOND":
+                    for bond in all_bond_list:
+                        bond_parts = bond.split()
+                        if bond_parts[1] == str(atom1_index):
+                            bond_parts[1] = str(atom2_index)
+                        elif bond_parts[1] == str(atom2_index):
+                            bond_parts[1] = str(atom1_index)
+                        if bond_parts[2] == str(atom1_index):
+                            bond_parts[2] = str(atom2_index)
+                        elif bond_parts[2] == str(atom2_index):
+                            bond_parts[2] = str(atom1_index)
+                        output += " ".join([f"{s: >4}" for s in bond_parts])
+                        output += "\n"
+
+                current_section = line.removeprefix("@<TRIPOS>").strip()
+                output += line
+                continue
+            if current_section == "ATOM":
+                all_atom_lines.append(line)
+                continue
+            if current_section == "BOND":
+                all_bond_list.append(line)
+                continue
+
+            output += line
+
+    with open(mol2_file, "w") as f:
+        f.write(output)
+
+    return True
+
+def _make_mol2_from_sequence(args : argparse.Namespace):
+    
+    res_dir = f"./FF_PARAM/FF_{args.resname}"
+    os.makedirs(f"{res_dir}", exist_ok=True)
+
+    with open(f"{res_dir}/smiles.txt", "w") as f:
+        f.write("No smiles!")
+
+    with open(f"{res_dir}/description.txt", "w") as f:
+        f.write(args.description)
+
+    with open(f"{res_dir}/{args.resname}.lib", "w") as f:
+        f.write("")
+
+    with open(f"{res_dir}/{args.resname}.frcmod", "w") as f:
+        f.write("")
+
+    filename = f"{res_dir}/{args.resname}.mol2"
+    sequence = args.peptideseq
+    SS = "C" * (len(args.peptideseq)+2)
+    
+    AA_DICT = {"A": "ALA",
+            "R": "ARG",
+            "N": "ASN",
+            "D": "ASP",
+            "C": "CYS",
+            "Q": "GLN",
+            "E": "GLU",
+            "G": "GLY",
+            "H": "HIS",
+            "I": "ILE",
+            "L": "LEU",
+            "K": "LYS",
+            "M": "MET",
+            "F": "PHE",
+            "P": "PRO",
+            "S": "SER",
+            "T": "THR",
+            "W": "TRP",
+            "Y": "TYR",
+            "V": "VAL"}
+    
+    utils.print_info(f"Making protein pdb file from the sequence {sequence} and secondary structure {SS}.")
+    leap_command = ""
+    leap_command += f"source leaprc.protein.ff14SB\n"
+    leap_command += f"peptide = sequence {{ ACE {' '.join([AA_DICT[aa] for aa in sequence])} NME }}\n"
+    
+    if "H" in SS:
+        helix_list = []
+        helix_start = None
+        helix_end = None
+        for i, s in enumerate(SS):
+            if s == "H":
+                if helix_start is None:
+                    helix_start = i
+            elif s == "C":
+                if helix_start is not None:
+                    helix_end = i
+                    helix_list.append((helix_start, helix_end))
+                    helix_start = None
+                    helix_end = None
+        if helix_start is not None:
+            helix_list.append((helix_start, len(SS)-1))
+
+        # leap_command += f"impose peptide {{ {' '.join([ f'{{ {h[0]} {h[1]} }}' for h in helix_list])} }}   {{ {{ $N $CA  $C $N -40.0 }} {{ $C $N  $CA $C -60.0 }} }}\n"
+        leap_command += f"impose peptide {{ {' '.join([ f'{{ {h[0]+1} {h[1]-1} }}' for h in helix_list])} }}   {{ {{ $N $CA  $C $N -10.0 }} {{ $C $N  $CA $C -15.0 }} }}\n"
+    
+    leap_command += f"savepdb peptide {res_dir}/{args.resname}.pdb\n"
+    leap_command += f"savemol2 peptide {res_dir}/{args.resname}.mol2 1\n"
+    leap_command += f"quit\n"
+
+    with open("leap.in", "w") as f:
+        f.write(leap_command)
+    
+    exitcode = subprocess.run("tleap -f leap.in", shell=True, check=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+    if exitcode.returncode != 0:
+        utils.print_error("Failed to make peptide mol2 file in tleap. See leap.log for details.")
+        exit(1)
+    else:
+        utils.print_info(f"Peptide mol2 file is created and saved as {filename}.")
+
+    # _swap_mol2_ACE(filename, 1, 2)
+    # _swap_mol2_ACE(filename, 2, 5)
+    _remove_hydrogen_from_mol2(filename)
+
+    return filename
+
 
 def make_param(args : argparse.Namespace):
 
     smiles = args.smiles
 
+    if "peptideseq" in args and args.peptideseq is not None:
+        _make_mol2_from_sequence(args)
+        return True
+    
     if len(args.resname) > 3:
         utils.print_error("Residue name should be less than 3 characters.")
         sys.exit(1)

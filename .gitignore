@@ -5,3 +5,6 @@ __pycache__/
 *.ipynb
 *.egg-info
 *.DS_store
+*.whl
+*.tar.gz
+build/
