@@ -33,7 +33,7 @@ jobs:
       env:
         VERSION: ${{ env.VERSION }}
       run: |
-        echo "Updating version to v.${VERSION}"
+        echo "Updating version to ${VERSION}"
         sed -i -e "s#^version = \".*\"#version = \"${VERSION}\"#g" pyproject.toml
     - name: Install dependencies
       run: |
