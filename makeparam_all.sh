@@ -13,4 +13,4 @@
 # cemm-gen makeparam --smiles "CCS" --resname THI --description "Thiol group" --overwrite ;
 # cemm-gen makeparam --smiles "CC[S-]" --resname THE --description "Thiolate group" --netcharge -1 --no-neutralize --overwrite ;
 # cemm-gen makeparam --smiles "CCSC" --resname MTI --description "Methionine group" --overwrite ;
-# cemm-gen makeparam --smiles "CCNC(N)N" --resname GUA --description "Guanidino group" --overwrite ;
+#cemm-gen makeparam --smiles "CCNC(=N)N" --resname GUA --description "Guanidino group" --overwrite ;
