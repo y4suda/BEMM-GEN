@@ -68,7 +68,7 @@ To create a model that fits the size of the protein, use `--padding-radius`.
 ## 🎨 Specify the chemical properties within models 
 CEMM-GEN can specify probability of the functional residues. 
 
-1. Specify residue type `--resnames XX:YY:ZZ:..`
+1. Specify residue type `--resnames XXX:YYY:ZZZ:..`
 
 2. Speficy residue populations `--resnames i:j:k:..`
 
