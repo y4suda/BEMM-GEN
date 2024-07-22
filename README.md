@@ -1,5 +1,5 @@
 <p align="center"><br><img src="./cemm-gen_logo_horizontal.png" width="512px"><br><br>
-Cellular Environment Mimicking Model GENerator  ver. 2024.7.19<br><br><br></p>
+Cellular Environment Mimicking Model GENerator  ver. 2024.07.22<br><br><br></p>
 
 # Welcome to CEMM-GEN
 
