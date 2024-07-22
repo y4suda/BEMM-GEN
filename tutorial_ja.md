@@ -44,6 +44,7 @@ cemm-gen cylinder --proteinseq GASGASGASGAS --proteinSS HHHHHHHHHHHH --resnames 
 cemm-gen sphere --proteinpdb protein.pdb --resnames MTY:HYD --composition 0.3:0.7
 ```
 
+## 
 
 ## 🍳 タンパク質構造の入力または生成
 CEMM-GEN では生成したモデル内にタンパク質を配置できます。タンパク質の指定方法は２種類です。
@@ -59,6 +60,19 @@ CEMM-GEN では生成したモデル内にタンパク質を配置できます�
 
 [!TIP]
 いずれの場合も、タンパク質の長径、短径は自動で計算されモデルの大きさに反映されます。`cylinder` の `--length` を指定した場合タンパク質がはみ出す場合は警告が出されますが、構造生成は許容されます。最終的な構造をよく確認してください。`--radius` を指定した場合、タンパク質の大きさがはみ出すことは許容されないため、エラーを返し終了します。タンパク質のサイズに合わせたモデルを作るには `--padding-radius` を活用してください。
+
+## 🎨 モデル内部における組成の決定
+CEMM-GEN ではモデル内に配置する残基の組成を指定することができます。
+
+1. 残基の種類を指定する `--resnames XX:YY:ZZ:..`
+
+   使用可能な残基は　`cemm-gen listparam` で参照してください
+
+2. 各残基の割合を指定する `--resnames i:j:k:..`
+
+3. (オプション） 残期間の最小距離を指定する　　`--min-distance　i [Å]　(defalt:4.0)`
+
+## 
 
 
 ## 📖 パラメーターの一覧
