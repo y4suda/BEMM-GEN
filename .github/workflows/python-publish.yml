@@ -34,7 +34,7 @@ jobs:
         VERSION: ${{ env.VERSION }}
       run: |
         echo "Updating version to v.${VERSION}"
-        sed -i -e "s#^version = \".*\"#version = \"v.${VERSION}\"#g" pyproject.toml
+        sed -i -e "s#^version = \".*\"#version = \"${VERSION}\"#g" pyproject.toml
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
