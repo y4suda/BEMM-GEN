@@ -1,6 +1,9 @@
 <p align="center"><br><img src="./cemm-gen_logo_horizontal.png" width="512px"><br><br>
 Cellular Environment Mimicking Model GENerator<br><br><br></p>
 
+# Welcome to CEMM-GEN
+<p align="center"><br><img src="./cemm-gen_main.png" width="800px"></p>
+
 # Tutorial
 
 ## Installation
