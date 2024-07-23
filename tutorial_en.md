@@ -80,8 +80,19 @@ CEMM-GEN can specify probability of the functional residues.
 ## 🚀 Output
 CEMM-GEN finally generate the input files for MD simulation in AMBER (. prmtop, .inpcrd) or GROMACS (.top, .gro) format.
 
-##
+## 🖥 Perfome MD simulations
+Please perform MD simulations using the generated files.
 
+### In case of GROMACS
+The position restraint for the model has already been set in the .top file.
+To apply position restraints to the protein so that it does not move during the relaxation calculation, add the following setting to the .mdp file.
+```sh:quick_example
+define = -DPROTEINPOSRES
+```
+
+### In case of AMBER
+The position restraint for the model should be set in the .in file based on the log.
+For the protein during the relaxation calculation, set the position restraint in the .in file in the same way.
 
 ## 📖 List of available residue parameters
 
