@@ -1,4 +1,4 @@
-![image](https://github.com/user-attachments/assets/1d8b769a-1e8b-4901-a71a-dcff3643413a)<p align="center"><br><img src="./cemm-gen_logo_horizontal.png" width="512px"><br><br>
+<p align="center"><br><img src="./cemm-gen_logo_horizontal.png" width="512px"><br><br>
 Cellular Environment Mimicking Model GENerator<br><br><br></p>
 
 # チュートリアル
