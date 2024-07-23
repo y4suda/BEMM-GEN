@@ -71,7 +71,7 @@ CEMM-GEN ではモデル内に配置する残基の組成を指定すること�
 
 2. 各残基の割合を指定する `--resnames i:j:k:..`
 
-3. (オプション） 残期間の最小距離を指定する　　`--min-distance　i [Å]　(defalt:4.0)`
+3. (オプション） 残期間の最小距離を指定する　　`--min-distance x [Å] (defalt:4.0)`
 
 ## 🚀出力
 CEMM-GENでは、AMBER（.prmtop, .inpcrd）またはGROMACS（.top, .gro）形式でMDシミュレーションの入力ファイルを生成します。
