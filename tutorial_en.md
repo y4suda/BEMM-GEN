@@ -74,6 +74,9 @@ CEMM-GEN can specify probability of the functional residues.
 
 3. (Optinal） Specify min-distance between each residues 　　`--min-distance　i [Å]　(defalt:4.0)`
 
+## 🚀　Output
+CEMM-GEN finally generate the input files for MD simulation in AMBER (. prmtop, .inpcrd) or GROMACS (.top, .gro) format
+
 ##
 
 
