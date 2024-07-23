@@ -1,4 +1,4 @@
-<p align="center"><br><img src="./cemm-gen_logo_horizontal.png" width="512px"><br><br>
+![image](https://github.com/user-attachments/assets/1d8b769a-1e8b-4901-a71a-dcff3643413a)<p align="center"><br><img src="./cemm-gen_logo_horizontal.png" width="512px"><br><br>
 Cellular Environment Mimicking Model GENerator<br><br><br></p>
 
 # チュートリアル
@@ -69,6 +69,9 @@ CEMM-GEN ではモデル内に配置する残基の組成を指定すること�
 2. 各残基の割合を指定する `--resnames i:j:k:..`
 
 3. (オプション） 残期間の最小距離を指定する　　`--min-distance　i [Å]　(defalt:4.0)`
+
+## 🚀出力
+CEMM-GENでは、AMBER（.prmtop, .inpcrd）またはGROMACS（.top, .gro）形式でMDシミュレーションの入力ファイルを生成します。
 
 ## 
 
