@@ -13,7 +13,14 @@ CEMM-GEN is a new tool aiming to generate cellular environment mimicking model f
 ## Requirements
 Python >= 3.8, conda, openbabel, psi4, resp, ambertools, scikit-learn, rdkit, parmed 
 
-## Instllation 
+## Installation 
+### For Linux/MacOS
+- Follow the instructions below to install CEMM-GEN.
+### For Windows
+- Install Windows Subsystem for Linux (WSL), then follow the instructions below to install CEMM-GEN on WSL.
+
+
+Using a Conda environment (such as Miniforge, or Miniconda) is recommended for CEMM-GEN. If you use only the pip package manager, please adjust the commands accordingly.
 ```sh
 conda create -n cemm-gen-env
 conda activate cemm-gen-env
@@ -33,9 +40,6 @@ cemm-gen makeparam --smiles CCC --resname MTY --description "Methyl group"
 ```
 
 **Please see the documentation [English](https://github.com/y4suda/CEMM-GEN/blob/main/tutorial_en.md) / [日本語](https://github.com/y4suda/CEMM-GEN/blob/main/tutorial_ja.md)**
-
-## Version History
-See the [version history](./version_history.md) for the latest updates.
 
 ## Cite Us
 T. Yasuda, R. Morita, Y. Shigeta and R. Harada. "Cellular Environment Mimicking Model GENerator: A tool for generating a cellular environment mimicking model."*XXXX*,2024,XXXX,[doi](https://XXX)
