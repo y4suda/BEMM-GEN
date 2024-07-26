@@ -1,7 +1,0 @@
-source leaprc.protein.ff14SB
-source leaprc.gaff2
-GUA = loadmol2 ./FF_PARAM/FF_GUA/GUA.mol2
-loadamberparams ./FF_PARAM/FF_GUA/GUA.frcmod
-saveoff GUA ./FF_PARAM/FF_GUA/GUA.lib
-savepdb GUA ./FF_PARAM/FF_GUA/GUA.pdb
-quit

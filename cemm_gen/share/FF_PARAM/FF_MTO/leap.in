@@ -1,7 +1,0 @@
-source leaprc.protein.ff14SB
-source leaprc.gaff2
-MTO = loadmol2 ./FF_PARAM/FF_MTO/MTO.mol2
-loadamberparams ./FF_PARAM/FF_MTO/MTO.frcmod
-saveoff MTO ./FF_PARAM/FF_MTO/MTO.lib
-savepdb MTO ./FF_PARAM/FF_MTO/MTO.pdb
-quit
