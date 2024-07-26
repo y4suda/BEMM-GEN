@@ -19,6 +19,7 @@ To install from GitHub repository, use the following command.
 git clone https://github.com/y4suda/BEMM-GEN.git
 pip install ./BEMM-GEN
 ```
+After installation, the first startup may take some time because various libraries are initialized.
 
 ## Basic Usage
 ```sh:available_sub-commands

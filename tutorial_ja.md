@@ -19,6 +19,8 @@ GitHubリポジトリからインストールする場合は、以下のコマ�
 git clone https://github.com/y4suda/BEMM-GEN.git
 pip install ./BEMM-GEN
 ```
+インストール後の初回起動時には各種ライブラリの初期化等が行われるため、起動に時間がかかる場合があります。
+
 
 ## 基本的な使い方
 ```sh:available_sub-commands
