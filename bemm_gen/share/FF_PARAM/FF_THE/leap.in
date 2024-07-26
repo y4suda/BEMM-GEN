@@ -1,0 +1,7 @@
+source leaprc.protein.ff14SB
+source leaprc.gaff2
+THE = loadmol2 ./FF_PARAM/FF_THE/THE.mol2
+loadamberparams ./FF_PARAM/FF_THE/THE.frcmod
+saveoff THE ./FF_PARAM/FF_THE/THE.lib
+savepdb THE ./FF_PARAM/FF_THE/THE.pdb
+quit

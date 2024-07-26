@@ -1,0 +1,7 @@
+source leaprc.protein.ff14SB
+source leaprc.gaff2
+BLA = loadmol2 ./FF_PARAM/FF_BLA/BLA.mol2
+loadamberparams ./FF_PARAM/FF_BLA/BLA.frcmod
+saveoff BLA ./FF_PARAM/FF_BLA/BLA.lib
+savepdb BLA ./FF_PARAM/FF_BLA/BLA.pdb
+quit

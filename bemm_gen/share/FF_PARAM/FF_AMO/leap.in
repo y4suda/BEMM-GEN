@@ -1,0 +1,7 @@
+source leaprc.protein.ff14SB
+source leaprc.gaff2
+AMO = loadmol2 ./FF_PARAM/FF_AMO/AMO.mol2
+loadamberparams ./FF_PARAM/FF_AMO/AMO.frcmod
+saveoff AMO ./FF_PARAM/FF_AMO/AMO.lib
+savepdb AMO ./FF_PARAM/FF_AMO/AMO.pdb
+quit

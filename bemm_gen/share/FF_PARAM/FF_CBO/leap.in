@@ -1,0 +1,7 @@
+source leaprc.protein.ff14SB
+source leaprc.gaff2
+CBO = loadmol2 ./FF_PARAM/FF_CBO/CBO.mol2
+loadamberparams ./FF_PARAM/FF_CBO/CBO.frcmod
+saveoff CBO ./FF_PARAM/FF_CBO/CBO.lib
+savepdb CBO ./FF_PARAM/FF_CBO/CBO.pdb
+quit

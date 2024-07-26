@@ -1,0 +1,7 @@
+source leaprc.protein.ff14SB
+source leaprc.gaff2
+MTY = loadmol2 ./FF_PARAM/FF_MTY/MTY.mol2
+loadamberparams ./FF_PARAM/FF_MTY/MTY.frcmod
+saveoff MTY ./FF_PARAM/FF_MTY/MTY.lib
+savepdb MTY ./FF_PARAM/FF_MTY/MTY.pdb
+quit

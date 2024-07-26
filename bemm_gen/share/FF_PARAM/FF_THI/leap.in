@@ -1,0 +1,7 @@
+source leaprc.protein.ff14SB
+source leaprc.gaff2
+THI = loadmol2 ./FF_PARAM/FF_THI/THI.mol2
+loadamberparams ./FF_PARAM/FF_THI/THI.frcmod
+saveoff THI ./FF_PARAM/FF_THI/THI.lib
+savepdb THI ./FF_PARAM/FF_THI/THI.pdb
+quit

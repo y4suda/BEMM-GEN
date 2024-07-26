@@ -1,0 +1,87 @@
+!!index array str
+ "THI"
+!entry.THI.unit.atoms table  str name  str type  int typex  int resx  int flags  int seq  int elmnt  dbl chg
+ "C" "c3" 0 1 131072 1 6 -0.148500
+ "C1" "c3" 0 1 131072 2 6 0.032500
+ "S" "sh" 0 1 131072 3 16 -0.377900
+ "H" "hc" 0 1 131072 4 1 0.041300
+ "H1" "hc" 0 1 131072 5 1 0.060100
+ "H2" "hc" 0 1 131072 6 1 0.042500
+ "H3" "h1" 0 1 131072 7 1 0.028500
+ "H4" "h1" 0 1 131072 8 1 0.121800
+ "H5" "hs" 0 1 131072 9 1 0.199700
+!entry.THI.unit.atomspertinfo table  str pname  str ptype  int ptypex  int pelmnt  dbl pchg
+ "C" "c3" 0 -1 0.0
+ "C1" "c3" 0 -1 0.0
+ "S" "sh" 0 -1 0.0
+ "H" "hc" 0 -1 0.0
+ "H1" "hc" 0 -1 0.0
+ "H2" "hc" 0 -1 0.0
+ "H3" "h1" 0 -1 0.0
+ "H4" "h1" 0 -1 0.0
+ "H5" "hs" 0 -1 0.0
+!entry.THI.unit.boundbox array dbl
+ -1.000000
+ 0.0
+ 0.0
+ 0.0
+ 0.0
+!entry.THI.unit.childsequence single int
+ 2
+!entry.THI.unit.connect array int
+ 0
+ 0
+!entry.THI.unit.connectivity table  int atom1x  int atom2x  int flags
+ 1 4 1
+ 1 2 1
+ 1 5 1
+ 1 6 1
+ 2 7 1
+ 2 8 1
+ 2 3 1
+ 3 9 1
+!entry.THI.unit.hierarchy table  str abovetype  int abovex  str belowtype  int belowx
+ "U" 0 "R" 1
+ "R" 1 "A" 1
+ "R" 1 "A" 2
+ "R" 1 "A" 3
+ "R" 1 "A" 4
+ "R" 1 "A" 5
+ "R" 1 "A" 6
+ "R" 1 "A" 7
+ "R" 1 "A" 8
+ "R" 1 "A" 9
+!entry.THI.unit.name single str
+ "THI"
+!entry.THI.unit.positions table  dbl x  dbl y  dbl z
+ -1.695000 0.432000 -0.330000
+ -0.437000 -0.357000 -0.681000
+ 0.979000 -0.078000 0.469000
+ -2.505000 0.183000 -1.028000
+ -1.518000 1.512000 -0.396000
+ -2.032000 0.207000 0.686000
+ -0.109000 -0.149000 -1.704000
+ -0.623000 -1.433000 -0.615000
+ 1.114000 1.246000 0.235000
+!entry.THI.unit.residueconnect table  int c1x  int c2x  int c3x  int c4x  int c5x  int c6x
+ 0 0 0 0 0 0
+!entry.THI.unit.residues table  str name  int seq  int childseq  int startatomx  str restype  int imagingx
+ "THI" 1 10 1 "?" 0
+!entry.THI.unit.residuesPdbSequenceNumber array int
+ 0
+!entry.THI.unit.solventcap array dbl
+ -1.000000
+ 0.0
+ 0.0
+ 0.0
+ 0.0
+!entry.THI.unit.velocities table  dbl x  dbl y  dbl z
+ 0.0 0.0 0.0
+ 0.0 0.0 0.0
+ 0.0 0.0 0.0
+ 0.0 0.0 0.0
+ 0.0 0.0 0.0
+ 0.0 0.0 0.0
+ 0.0 0.0 0.0
+ 0.0 0.0 0.0
+ 0.0 0.0 0.0
