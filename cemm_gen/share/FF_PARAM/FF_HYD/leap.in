@@ -1,7 +1,0 @@
-source leaprc.protein.ff14SB
-source leaprc.gaff2
-HYD = loadmol2 ./FF_PARAM/FF_HYD/HYD.mol2
-loadamberparams ./FF_PARAM/FF_HYD/HYD.frcmod
-saveoff HYD ./FF_PARAM/FF_HYD/HYD.lib
-savepdb HYD ./FF_PARAM/FF_HYD/HYD.pdb
-quit

@@ -1,7 +1,0 @@
-source leaprc.protein.ff14SB
-source leaprc.gaff2
-POS = loadmol2 ./FF_PARAM/FF_POS/POS.mol2
-loadamberparams ./FF_PARAM/FF_POS/POS.frcmod
-saveoff POS ./FF_PARAM/FF_POS/POS.lib
-savepdb POS ./FF_PARAM/FF_POS/POS.pdb
-quit

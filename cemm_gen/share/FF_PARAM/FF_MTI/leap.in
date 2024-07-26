@@ -1,7 +1,0 @@
-source leaprc.protein.ff14SB
-source leaprc.gaff2
-MTI = loadmol2 ./FF_PARAM/FF_MTI/MTI.mol2
-loadamberparams ./FF_PARAM/FF_MTI/MTI.frcmod
-saveoff MTI ./FF_PARAM/FF_MTI/MTI.lib
-savepdb MTI ./FF_PARAM/FF_MTI/MTI.pdb
-quit

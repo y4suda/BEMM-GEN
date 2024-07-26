@@ -1,7 +1,0 @@
-source leaprc.protein.ff14SB
-source leaprc.gaff2
-CBX = loadmol2 ./FF_PARAM/FF_CBX/CBX.mol2
-loadamberparams ./FF_PARAM/FF_CBX/CBX.frcmod
-saveoff CBX ./FF_PARAM/FF_CBX/CBX.lib
-savepdb CBX ./FF_PARAM/FF_CBX/CBX.pdb
-quit
