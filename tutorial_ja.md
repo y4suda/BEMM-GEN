@@ -1,56 +1,56 @@
-<p align="center"><br><img src="./cemm-gen_logo_horizontal.png" width="512px"><br><br>
-Cellular Environment Mimicking Model GENerator<br><br><br></p>
+<p align="center"><br><img src="./bemm-gen_logo_horizontal.png" width="512px"><br><br>
+Biomolecular Environment Mimicking Model GENerator<br><br><br></p>
 
-# Welcome to CEMM-GEN
-<p align="center"><br><img src="./cemm-gen_main.png" width="800px"></p>
+# Welcome to BEMM-GEN
+<p align="center"><br><img src="./bemm-gen_main.png" width="800px"></p>
 
 # チュートリアル
 
 ## インストール方法
 ```sh
-conda create -n cemm-gen-env
-conda activate cemm-gen-env
+conda create -n bemm-gen-env
+conda activate bemm-gen-env
 conda install -c conda-forge openbabel psi4 resp ambertools
-pip install cemm-gen
+pip install bemm-gen
 ```
 
 GitHubリポジトリからインストールする場合は、以下のコマンドを使用してください。
 ```sh
-git clone https://github.com/y4suda/CEMM-GEN.git
-pip install ./CEMM-GEN
+git clone https://github.com/y4suda/BEMM-GEN.git
+pip install ./BEMM-GEN
 ```
 
 ## 基本的な使い方
 ```sh:available_sub-commands
 # 円筒形のモデルを作成
-cemm-gen cylinder
+bemm-gen cylinder
 
 # 球形のモデルを作成
-cemm-gen sphere
+bemm-gen sphere
 
 # 壁面の残基を作成
-cemm-gen makeparam
+bemm-gen makeparam
 
 # 使用可能な残基一覧を表示
-cemm-gen listparam
+bemm-gen listparam
 ```
 
 ## 🔭 円筒形のモデル作成
 
 ```sh:quick_example
-cemm-gen cylinder --proteinseq GASGASGASGAS --proteinSS HHHHHHHHHHHH --resnames MTY:HYD --composition 1:2.5
+bemm-gen cylinder --proteinseq GASGASGASGAS --proteinSS HHHHHHHHHHHH --resnames MTY:HYD --composition 1:2.5
 ```
 
 ## 🌐 球形のモデル作成
 
 ```sh:quick_example
-cemm-gen sphere --proteinpdb protein.pdb --resnames MTY:HYD --composition 0.3:0.7
+bemm-gen sphere --proteinpdb protein.pdb --resnames MTY:HYD --composition 0.3:0.7
 ```
 
 ## 
 
 ## 🍳 タンパク質構造の入力または生成
-CEMM-GEN では生成したモデル内にタンパク質を配置できます。タンパク質の指定方法は２種類です。
+BEMMM-GEN では生成したモデル内にタンパク質を配置できます。タンパク質の指定方法は２種類です。
 
 1. pdbファイルを指定する `--proteinpdb`
 
@@ -65,7 +65,7 @@ CEMM-GEN では生成したモデル内にタンパク質を配置できます�
 いずれの場合も、タンパク質の長径、短径は自動で計算されモデルの大きさに反映されます。`cylinder` の `--length` を指定した場合タンパク質がはみ出す場合は警告が出されますが、構造生成は許容されます。最終的な構造をよく確認してください。`--radius` を指定した場合、タンパク質の大きさがはみ出すことは許容されないため、エラーを返し終了します。タンパク質のサイズに合わせたモデルを作るには `--padding-radius` を活用してください。
 
 ## 🎨 モデル内部における組成の決定
-CEMM-GEN ではモデル内に配置する残基の組成を指定することができます。
+BEMMM-GEN ではモデル内に配置する残基の組成を指定することができます。
 
 1. 残基の種類を指定する `--resnames XXX:YYY:ZZZ:..`
 
@@ -74,7 +74,7 @@ CEMM-GEN ではモデル内に配置する残基の組成を指定すること�
 3. (オプション） 残期間の最小距離を指定する　　`--min-distance x [Å] (defalt:4.0)`
 
 ## 🚀出力
-CEMM-GENでは、AMBER（.prmtop, .inpcrd）またはGROMACS（.top, .gro）形式でMDシミュレーションの入力ファイルを生成します。
+BEMMM-GENでは、AMBER（.prmtop, .inpcrd）またはGROMACS（.top, .gro）形式でMDシミュレーションの入力ファイルを生成します。
 
 ## 🖥 MDシミュレーションの実行
 生成されたファイルを使用して、MDシミュレーションを実行してください。
@@ -96,7 +96,7 @@ define = -DPROTEINPOSRES
 現在利用可能な残基一覧は `listparam` サブコマンドで取得できます。
 
 ```sh:quick_example
-cemm-gen listparam
+bemm-gen listparam
 ```
 
 `--dump` オプションを付けると利用可能な残基の一覧をHTMLファイルで出力します。
@@ -106,7 +106,7 @@ cemm-gen listparam
 独自の残基を作る場合は `makeparam` サブコマンドを使用してください。
 
 ```sh:quick_example
-cemm-gen makeparam --smiles CCC --resname MTY --description "Methyl group"
+bemm-gen makeparam --smiles CCC --resname MTY --description "Methyl group"
 ```
 
 ### 最低限必要な入力
@@ -137,59 +137,59 @@ Rdkit の ETKDGv3 法で構造生成を行った後、`--method-opt` と `--basi
 <div width="100%">
 <div style="width: 164px; display: inline-block">
 <br>BLA<br>(Blank group)<br>CCCC<br>
-<img src="./cemm_gen/share/FF_PARAM/FF_BLA/smiles.png" width="128px">
+<img src="./bemm_gen/share/FF_PARAM/FF_BLA/smiles.png" width="128px">
 </div>
 <div style="width: 164px; display: inline-block">
 <br>MTY<br>(Methyl group)<br>CCC<br>
-<img src="./cemm_gen/share/FF_PARAM/FF_MTY/smiles.png" width="128px">
+<img src="./bemm_gen/share/FF_PARAM/FF_MTY/smiles.png" width="128px">
 </div>
 <div style="width: 164px; display: inline-block">
 <br>ETY<br>(Ethyl group)<br>CCCC<br>
-<img src="./cemm_gen/share/FF_PARAM/FF_ETY/smiles.png" width="128px">
+<img src="./bemm_gen/share/FF_PARAM/FF_ETY/smiles.png" width="128px">
 </div>
 <div style="width: 164px; display: inline-block">
 <br>HYD<br>(Hydroxy group)<br>CCO<br>
-<img src="./cemm_gen/share/FF_PARAM/FF_HYD/smiles.png" width="128px">
+<img src="./bemm_gen/share/FF_PARAM/FF_HYD/smiles.png" width="128px">
 </div>
 <div style="width: 164px; display: inline-block">
 <br>CBO<br>(Carboxy group)<br>CCO<br>
-<img src="./cemm_gen/share/FF_PARAM/FF_CBO/smiles.png" width="128px">
+<img src="./bemm_gen/share/FF_PARAM/FF_CBO/smiles.png" width="128px">
 </div>
 <div style="width: 164px; display: inline-block">
 <br>MTO<br>(Methoxy group)<br>CCO<br>
-<img src="./cemm_gen/share/FF_PARAM/FF_MTO/smiles.png" width="128px">
+<img src="./bemm_gen/share/FF_PARAM/FF_MTO/smiles.png" width="128px">
 </div>
 <div style="width: 164px; display: inline-block">
 <br>ARM<br>(Aromatic group)<br>CCc1ccccc1<br>
-<img src="./cemm_gen/share/FF_PARAM/FF_ARM/smiles.png" width="128px">
+<img src="./bemm_gen/share/FF_PARAM/FF_ARM/smiles.png" width="128px">
 </div>
 <div style="width: 164px; display: inline-block">
 <br>ARO<br>(Tyrosine-like group)<br>CCc1ccc(O)cc1<br>
-<img src="./cemm_gen/share/FF_PARAM/FF_ARO/smiles.png" width="128px">
+<img src="./bemm_gen/share/FF_PARAM/FF_ARO/smiles.png" width="128px">
 </div>
 <div style="width: 164px; display: inline-block">
 <br>NEG<br>(Negatively charged carboxy group)<br>CCC(:O):O<br>
-<img src="./cemm_gen/share/FF_PARAM/FF_NEG/smiles.png" width="128px">
+<img src="./bemm_gen/share/FF_PARAM/FF_NEG/smiles.png" width="128px">
 </div>
 <div style="width: 164px; display: inline-block">
 <br>POS<br>(Positively charged amino group)<br>CC[NH3+]<br>
-<img src="./cemm_gen/share/FF_PARAM/FF_POS/smiles.png" width="128px">
+<img src="./bemm_gen/share/FF_PARAM/FF_POS/smiles.png" width="128px">
 </div>
 <div style="width: 164px; display: inline-block">
 <br>THI<br>(Thiol group)<br>CCS<br>
-<img src="./cemm_gen/share/FF_PARAM/FF_THI/smiles.png" width="128px">
+<img src="./bemm_gen/share/FF_PARAM/FF_THI/smiles.png" width="128px">
 </div>
 <div style="width: 164px; display: inline-block">
 <br>THE<br>(Thiolate group)<br>CC[S-]<br>
-<img src="./cemm_gen/share/FF_PARAM/FF_THE/smiles.png" width="128px">
+<img src="./bemm_gen/share/FF_PARAM/FF_THE/smiles.png" width="128px">
 </div>
 <div style="width: 164px; display: inline-block">
 <br>MTI<br>(Methionine group)<br>CCSC<br>
-<img src="./cemm_gen/share/FF_PARAM/FF_MTI/smiles.png" width="128px">
+<img src="./bemm_gen/share/FF_PARAM/FF_MTI/smiles.png" width="128px">
 </div>
 <div style="width: 164px; display: inline-block">
 <br>GUA<br>(Guanidino group)<br>CCNC(N)N<br>
-<img src="./cemm_gen/share/FF_PARAM/FF_GUA/smiles.png" width="128px">
+<img src="./bemm_gen/share/FF_PARAM/FF_GUA/smiles.png" width="128px">
 </div>
 </div>
 
@@ -197,4 +197,4 @@ Rdkit の ETKDGv3 法で構造生成を行った後、`--method-opt` と `--basi
 ## 引用
 このプログラムを利用して論文等を作成する際は、可能な範囲で以下の文献を引用してください。
 
-Takunori Yasuda, Rikuri Morita, Yasuteru Shigeta, Ryuhei Harada. (2024) Cellular Environment Mimicking Model GENerator: A tool for generating a cellular environment mimicking model. Submitted.
+Takunori Yasuda, Rikuri Morita, Yasuteru Shigeta, Ryuhei Harada. (2024) BEMM-GEN: A toolkit for generating a biomolecular environment mimicking model. Submitted.
