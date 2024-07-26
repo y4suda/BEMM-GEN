@@ -11,7 +11,7 @@ def setup_logger(log_level: str):
     if logger.hasHandlers():
         logger.handlers.clear()
 
-    fh = FileHandler("CEMM-GEN.log")
+    fh = FileHandler("BEMM-GEN.log")
     fh.setLevel(DEBUG)
     formatter = Formatter("%(asctime)s - %(levelname)s - %(message)s")
     fh.setFormatter(formatter)

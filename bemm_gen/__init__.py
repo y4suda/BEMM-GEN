@@ -18,7 +18,7 @@ def main():
 
     logger = utils.setup_logger("INFO")
     logger.info(f" ")
-    logger.info(f"Start CEMM-GEN. Version: {__version__}")
+    logger.info(f"Start BEMM-GEN. Version: {__version__}")
     logger.info("Command line arguments: " + " ".join(sys.argv))
 
     print(f"""
@@ -30,14 +30,14 @@ def main():
 ╚██████╗███████╗██║ ╚═╝ ██║██║ ╚═╝ ██║      ╚██████╔╝███████╗██║ ╚████║
  ╚═════╝╚══════╝╚═╝     ╚═╝╚═╝     ╚═╝       ╚═════╝ ╚══════╝╚═╝  ╚═══╝
           
-          Cellular Environment Mimicking Model GENerator  {__version__}
+          Biomolecular Environment Mimicking Model GENerator  {__version__}
 
                 T. Yasuda, R. Morita, Y. Shigeta and R. Harada. (2024)
           
           """)
 
     # main parser
-    parser= argparse.ArgumentParser(description="Make a cellular environment mimicking model.", add_help=False)
+    parser= argparse.ArgumentParser(description="Make biomolecular environment mimicking model.", add_help=False)
     subparsers = parser.add_subparsers(dest="command")
 
     # subparser for cylinder
@@ -124,7 +124,7 @@ def main():
 
     print("\n")
     print("Please cite the following paper when you use this software.")
-    print("T. Yasuda, R. Morita, Y. Shigeta and R. Harada. (2024) \"Cellular Environment Mimicking Model GENerator: A tool for generating a cellular environment mimicking model.\"")
+    print("T. Yasuda, R. Morita, Y. Shigeta and R. Harada. (2024) \"BEMM-GEN: A tool for generating a biomolecular environment mimicking model.\"")
     print("")
     
-    logger.info("End CEMM-GEN.")
+    logger.info("End BEMM-GEN.")

@@ -17,7 +17,7 @@ pip install bemm-gen
 To install from GitHub repository, use the following command.
 ```sh
 git clone https://github.com/y4suda/BEMM-GEN.git
-pip install ./bemm-GEN
+pip install ./BEMM-GEN
 ```
 
 ## Basic Usage
@@ -99,7 +99,7 @@ For the protein during the relaxation calculation, set the position restraint in
 The list of available residues can be obtained with the `listparam` subcommand.
 
 ```sh:quick_example
-BEMM-gen listparam
+bemm-gen listparam
 ```
 
 If you add the `--dump` option, the list of available residues will be output as an HTML file.
@@ -110,7 +110,7 @@ If you add the `--dump` option, the list of available residues will be output as
 To create a new residue parameter, use the `makeparam` subcommand.
 
 ```sh:quick_example
-BEMM-gen makeparam --smiles CCC --resname MTY --description "Methyl group"
+bemm-gen makeparam --smiles CCC --resname MTY --description "Methyl group"
 ```
 
 ### Minimal required options
