@@ -1,5 +1,5 @@
 <p align="center"><br><img src="./BEMM-gen_logo_horizontal.png" width="512px"><br><br>
-Cellular Environment Mimicking Model GENerator <br><br><br></p>
+Biomolecular  Environment Mimicking Model GENerator <br><br><br></p>
 
 # Welcome to BEMM-GEN
 <p align="center"><br><img src="./BEMM-gen_main.png" width="800px"></p>
@@ -7,7 +7,7 @@ Cellular Environment Mimicking Model GENerator <br><br><br></p>
 
 ## What is BEMM-GEN?
 <img src="./BEMM-gen_scheme.png" align="right" width="400px">
-BEMM-GEN is a new tool aiming to generate cellular environment mimicking model for molecular dynamics simulation. BEMM-GEN generates spherical and cylindrical models with user-specified chemical properties, allowing the integration of arbitrary protein structures into the generated models. Consequently, the model and protein complex structures, along with the corresponding parameter files for MD simulations (AMBER or GROMACS), are provided as output files. 
+BEMM-GEN is a new tool aiming to generate biomolecular  environment mimicking model for molecular dynamics simulation. BEMM-GEN generates spherical and cylindrical models with user-specified chemical properties, allowing the integration of arbitrary protein structures into the generated models. Consequently, the model and protein complex structures, along with the corresponding parameter files for MD simulations (AMBER or GROMACS), are provided as output files. 
 <br><br><br><br><br><br><br><br><br>
 
 ## Requirements
@@ -42,7 +42,7 @@ BEMM-gen makeparam --smiles CCC --resname MTY --description "Methyl group"
 **Please see the documentation [English](https://github.com/y4suda/BEMM-GEN/blob/main/tutorial_en.md) / [日本語](https://github.com/y4suda/BEMM-GEN/blob/main/tutorial_ja.md)**
 
 ## Cite Us
-T. Yasuda, R. Morita, Y. Shigeta and R. Harada. "Cellular Environment Mimicking Model GENerator: A tool for generating a cellular environment mimicking model."*XXXX*,2024,XXXX,[doi](https://XXX)
+T. Yasuda, R. Morita, Y. Shigeta and R. Harada. "BEMM-GEN : A tool for generating a Biomolecular  environment mimicking model."*XXXX*,2024,XXXX,[doi](https://XXX)
 
 ## Authors
 Takunori Yasuda, Doctoral Program in Biology, University of Tsukuba
