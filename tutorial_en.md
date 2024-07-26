@@ -1,56 +1,56 @@
-<p align="center"><br><img src="./cemm-gen_logo_horizontal.png" width="512px"><br><br>
-Cellular Environment Mimicking Model GENerator<br><br><br></p>
+<p align="center"><br><img src="./bemm-gen_logo_horizontal.png" width="512px"><br><br>
+Biomolecular Environment Mimicking Model GENerator<br><br><br></p>
 
-# Welcome to CEMM-GEN
-<p align="center"><br><img src="./cemm-gen_main.png" width="800px"></p>
+# Welcome to BEMM-GEN
+<p align="center"><br><img src="./bemm-gen_main.png" width="800px"></p>
 
 # Tutorial
 
 ## Installation
 ```sh
-conda create -n cemm-gen-env
-conda activate cemm-gen-env
+conda create -n bemm-gen-env
+conda activate bemm-gen-env
 conda install -c conda-forge openbabel psi4 resp ambertools
-pip install cemm-gen
+pip install bemm-gen
 ```
 
 To install from GitHub repository, use the following command.
 ```sh
-git clone https://github.com/y4suda/CEMM-GEN.git
-pip install ./CEMM-GEN
+git clone https://github.com/y4suda/BEMM-GEN.git
+pip install ./bemm-GEN
 ```
 
 ## Basic Usage
 ```sh:available_sub-commands
 # Make a cylindrical model
-cemm-gen cylinder
+bemm-gen cylinder
 
 # Make a spherical model
-cemm-gen sphere
+bemm-gen sphere
 
 # Make parameters for a new residue
-cemm-gen makeparam
+bemm-gen makeparam
 
 # Show available parameters
-cemm-gen listparam
+bemm-gen listparam
 ```
 
 ## 🔭 Make a cylindrical model
 
 ```sh:quick_example
-cemm-gen cylinder --proteinseq GASGASGASGAS --proteinSS HHHHHHHHHHHH --resnames MTY:HYD --composition 1:2.5
+bemm-gen cylinder --proteinseq GASGASGASGAS --proteinSS HHHHHHHHHHHH --resnames MTY:HYD --composition 1:2.5
 ```
 
 ## 🌐 Make a spherical model
 
 ```sh:quick_example
-cemm-gen sphere --proteinpdb protein.pdb --resnames MTY:HYD --composition 0.3:0.7
+bemm-gen sphere --proteinpdb protein.pdb --resnames MTY:HYD --composition 0.3:0.7
 ```
 
 ##
 
 ## 🍳 Protein structure input or generation
-CEMM-GEN can place a protein structure in the generated model. There are two ways to specify a protein structure.
+BEMM-GEN can place a protein structure in the generated model. There are two ways to specify a protein structure.
 
 1. Specify a .pdb file `--proteinpdb`
 
@@ -69,7 +69,7 @@ If `--radius` is specified, an error will be returned if the protein size protru
 To create a model that fits the size of the protein, use `--padding-radius`.
 
 ## 🎨 Specify the chemical properties within models 
-CEMM-GEN can specify probability of the functional residues. 
+BEMM-GEN can specify probability of the functional residues. 
 
 1. Specify residue type `--resnames XXX:YYY:ZZZ:..`
 
@@ -78,7 +78,7 @@ CEMM-GEN can specify probability of the functional residues.
 3. (Optinal） Specify min-distance between each residues `--min-distance x [Å] (defalt:4.0)`
 
 ## 🚀 Output
-CEMM-GEN finally generate the input files for MD simulation in AMBER (. prmtop, .inpcrd) or GROMACS (.top, .gro) format.
+BEMM-GEN finally generate the input files for MD simulation in AMBER (. prmtop, .inpcrd) or GROMACS (.top, .gro) format.
 
 ## 🖥 Perfome MD simulations
 Please perform MD simulations using the generated files.
@@ -99,7 +99,7 @@ For the protein during the relaxation calculation, set the position restraint in
 The list of available residues can be obtained with the `listparam` subcommand.
 
 ```sh:quick_example
-cemm-gen listparam
+BEMM-gen listparam
 ```
 
 If you add the `--dump` option, the list of available residues will be output as an HTML file.
@@ -110,7 +110,7 @@ If you add the `--dump` option, the list of available residues will be output as
 To create a new residue parameter, use the `makeparam` subcommand.
 
 ```sh:quick_example
-cemm-gen makeparam --smiles CCC --resname MTY --description "Methyl group"
+BEMM-gen makeparam --smiles CCC --resname MTY --description "Methyl group"
 ```
 
 ### Minimal required options
@@ -122,7 +122,7 @@ cemm-gen makeparam --smiles CCC --resname MTY --description "Methyl group"
   - Please enter a description when registering a residue.
 
 ### Skip structure optimization
-CEMM-GEN uses the ETKDGv3 method of RDKit to generate structures, and then optimizes them with the functional specified by `--method-opt` and `--basisSet-opt`.
+BEMM-GEN uses the ETKDGv3 method of RDKit to generate structures, and then optimizes them with the functional specified by `--method-opt` and `--basisSet-opt`.
 If you want to skip this step (e.g., if the structure optimization is not completed), run it with the `--singlePoint` option.
 
 ### Charge setting
@@ -143,59 +143,59 @@ If you want to re-build an existing residue, please specify `--overwrite`. The d
 <div width="100%">
 <div style="width: 164px; display: inline-block">
 <br>BLA<br>(Blank group)<br>CCCC<br>
-<img src="./cemm_gen/share/FF_PARAM/FF_BLA/smiles.png" width="128px">
+<img src="./bemm_gen/share/FF_PARAM/FF_BLA/smiles.png" width="128px">
 </div>
 <div style="width: 164px; display: inline-block">
 <br>MTY<br>(Methyl group)<br>CCC<br>
-<img src="./cemm_gen/share/FF_PARAM/FF_MTY/smiles.png" width="128px">
+<img src="./bemm_gen/share/FF_PARAM/FF_MTY/smiles.png" width="128px">
 </div>
 <div style="width: 164px; display: inline-block">
 <br>ETY<br>(Ethyl group)<br>CCCC<br>
-<img src="./cemm_gen/share/FF_PARAM/FF_ETY/smiles.png" width="128px">
+<img src="./bemm_gen/share/FF_PARAM/FF_ETY/smiles.png" width="128px">
 </div>
 <div style="width: 164px; display: inline-block">
 <br>HYD<br>(Hydroxy group)<br>CCO<br>
-<img src="./cemm_gen/share/FF_PARAM/FF_HYD/smiles.png" width="128px">
+<img src="./bemm_gen/share/FF_PARAM/FF_HYD/smiles.png" width="128px">
 </div>
 <div style="width: 164px; display: inline-block">
 <br>CBO<br>(Carboxy group)<br>CCO<br>
-<img src="./cemm_gen/share/FF_PARAM/FF_CBO/smiles.png" width="128px">
+<img src="./bemm_gen/share/FF_PARAM/FF_CBO/smiles.png" width="128px">
 </div>
 <div style="width: 164px; display: inline-block">
 <br>MTO<br>(Methoxy group)<br>CCO<br>
-<img src="./cemm_gen/share/FF_PARAM/FF_MTO/smiles.png" width="128px">
+<img src="./bemm_gen/share/FF_PARAM/FF_MTO/smiles.png" width="128px">
 </div>
 <div style="width: 164px; display: inline-block">
 <br>ARM<br>(Aromatic group)<br>CCc1ccccc1<br>
-<img src="./cemm_gen/share/FF_PARAM/FF_ARM/smiles.png" width="128px">
+<img src="./bemm_gen/share/FF_PARAM/FF_ARM/smiles.png" width="128px">
 </div>
 <div style="width: 164px; display: inline-block">
 <br>ARO<br>(Tyrosine-like group)<br>CCc1ccc(O)cc1<br>
-<img src="./cemm_gen/share/FF_PARAM/FF_ARO/smiles.png" width="128px">
+<img src="./bemm_gen/share/FF_PARAM/FF_ARO/smiles.png" width="128px">
 </div>
 <div style="width: 164px; display: inline-block">
 <br>NEG<br>(Negatively charged carboxy group)<br>CCC(:O):O<br>
-<img src="./cemm_gen/share/FF_PARAM/FF_NEG/smiles.png" width="128px">
+<img src="./bemm_gen/share/FF_PARAM/FF_NEG/smiles.png" width="128px">
 </div>
 <div style="width: 164px; display: inline-block">
 <br>POS<br>(Positively charged amino group)<br>CC[NH3+]<br>
-<img src="./cemm_gen/share/FF_PARAM/FF_POS/smiles.png" width="128px">
+<img src="./bemm_gen/share/FF_PARAM/FF_POS/smiles.png" width="128px">
 </div>
 <div style="width: 164px; display: inline-block">
 <br>THI<br>(Thiol group)<br>CCS<br>
-<img src="./cemm_gen/share/FF_PARAM/FF_THI/smiles.png" width="128px">
+<img src="./bemm_gen/share/FF_PARAM/FF_THI/smiles.png" width="128px">
 </div>
 <div style="width: 164px; display: inline-block">
 <br>THE<br>(Thiolate group)<br>CC[S-]<br>
-<img src="./cemm_gen/share/FF_PARAM/FF_THE/smiles.png" width="128px">
+<img src="./bemm_gen/share/FF_PARAM/FF_THE/smiles.png" width="128px">
 </div>
 <div style="width: 164px; display: inline-block">
 <br>MTI<br>(Methionine group)<br>CCSC<br>
-<img src="./cemm_gen/share/FF_PARAM/FF_MTI/smiles.png" width="128px">
+<img src="./bemm_gen/share/FF_PARAM/FF_MTI/smiles.png" width="128px">
 </div>
 <div style="width: 164px; display: inline-block">
 <br>GUA<br>(Guanidino group)<br>CCNC(N)N<br>
-<img src="./cemm_gen/share/FF_PARAM/FF_GUA/smiles.png" width="128px">
+<img src="./bemm_gen/share/FF_PARAM/FF_GUA/smiles.png" width="128px">
 </div>
 </div>
 
@@ -203,4 +203,4 @@ If you want to re-build an existing residue, please specify `--overwrite`. The d
 ## Citation
 If you use this program to create papers or other documents, please cite the following literature as much as possible.
 
-Takunori Yasuda, Rikuri Morita, Yasuteru Shigeta, Ryuhei Harada. (2024) Cellular Environment Mimicking Model GENerator: A tool for generating a cellular environment mimicking model. Submitted.
+Takunori Yasuda, Rikuri Morita, Yasuteru Shigeta, Ryuhei Harada. (2024) BEMM-GEN: A tool for generating a biomolecular environment mimicking model. Submitted.
