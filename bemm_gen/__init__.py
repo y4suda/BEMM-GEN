@@ -124,7 +124,7 @@ def main():
 
     print("\n")
     print("Please cite the following paper when you use this software.")
-    print("T. Yasuda, R. Morita, Y. Shigeta and R. Harada. (2024) \"BEMM-GEN: A tool for generating a biomolecular environment mimicking model.\"")
+    print("T. Yasuda, R. Morita, Y. Shigeta and R. Harada. (2024) \"BEMM-GEN: A toolkit for generating a biomolecular environment mimicking model.\"")
     print("")
     
     logger.info("End BEMM-GEN.")
