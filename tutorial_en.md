@@ -203,4 +203,4 @@ If you want to re-build an existing residue, please specify `--overwrite`. The d
 ## Citation
 If you use this program to create papers or other documents, please cite the following literature as much as possible.
 
-Takunori Yasuda, Rikuri Morita, Yasuteru Shigeta, Ryuhei Harada. (2024) BEMM-GEN: A tool for generating a biomolecular environment mimicking model. Submitted.
+Takunori Yasuda, Rikuri Morita, Yasuteru Shigeta, Ryuhei Harada. (2024) BEMM-GEN: A toolkit for generating a biomolecular environment mimicking model. Submitted.
