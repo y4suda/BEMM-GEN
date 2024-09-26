@@ -138,28 +138,8 @@ Rdkit の ETKDGv3 法で構造生成を行った後、`--method-opt` と `--basi
 ## デフォルトパラメーターの一覧
 <div width="100%">
 <div style="width: 164px; display: inline-block">
-<br>BLA<br>(Blank group)<br>CCCC<br>
-<img src="./bemm_gen/share/FF_PARAM/FF_BLA/smiles.png" width="128px">
-</div>
-<div style="width: 164px; display: inline-block">
-<br>MTY<br>(Methyl group)<br>CCC<br>
-<img src="./bemm_gen/share/FF_PARAM/FF_MTY/smiles.png" width="128px">
-</div>
-<div style="width: 164px; display: inline-block">
-<br>ETY<br>(Ethyl group)<br>CCCC<br>
-<img src="./bemm_gen/share/FF_PARAM/FF_ETY/smiles.png" width="128px">
-</div>
-<div style="width: 164px; display: inline-block">
-<br>HYD<br>(Hydroxy group)<br>CCO<br>
-<img src="./bemm_gen/share/FF_PARAM/FF_HYD/smiles.png" width="128px">
-</div>
-<div style="width: 164px; display: inline-block">
-<br>CBO<br>(Carboxy group)<br>CCO<br>
-<img src="./bemm_gen/share/FF_PARAM/FF_CBO/smiles.png" width="128px">
-</div>
-<div style="width: 164px; display: inline-block">
-<br>MTO<br>(Methoxy group)<br>CCO<br>
-<img src="./bemm_gen/share/FF_PARAM/FF_MTO/smiles.png" width="128px">
+<br>AMO<br>(Amino group)<br>CCCN<br>
+<img src="./bemm_gen/share/FF_PARAM/FF_AMO/smiles.png" width="128px">
 </div>
 <div style="width: 164px; display: inline-block">
 <br>ARM<br>(Aromatic group)<br>CCc1ccccc1<br>
@@ -170,28 +150,56 @@ Rdkit の ETKDGv3 法で構造生成を行った後、`--method-opt` と `--basi
 <img src="./bemm_gen/share/FF_PARAM/FF_ARO/smiles.png" width="128px">
 </div>
 <div style="width: 164px; display: inline-block">
-<br>NEG<br>(Negatively charged carboxy group)<br>CCC(:O):O<br>
-<img src="./bemm_gen/share/FF_PARAM/FF_NEG/smiles.png" width="128px">
+<br>BLA<br>(Blank group)<br>CC<br>
+<img src="./bemm_gen/share/FF_PARAM/FF_BLA/smiles.png" width="128px">
 </div>
 <div style="width: 164px; display: inline-block">
-<br>POS<br>(Positively charged amino group)<br>CC[NH3+]<br>
-<img src="./bemm_gen/share/FF_PARAM/FF_POS/smiles.png" width="128px">
+<br>CBO<br>(Carbonyl group)<br>CC=O<br>
+<img src="./bemm_gen/share/FF_PARAM/FF_CBO/smiles.png" width="128px">
 </div>
 <div style="width: 164px; display: inline-block">
-<br>THI<br>(Thiol group)<br>CCS<br>
-<img src="./bemm_gen/share/FF_PARAM/FF_THI/smiles.png" width="128px">
+<br>CBX<br>(Carboxy group)<br>CCC(=O)O<br>
+<img src="./bemm_gen/share/FF_PARAM/FF_CBX/smiles.png" width="128px">
 </div>
 <div style="width: 164px; display: inline-block">
-<br>THE<br>(Thiolate group)<br>CC[S-]<br>
-<img src="./bemm_gen/share/FF_PARAM/FF_THE/smiles.png" width="128px">
+<br>ETY<br>(Ethyl group)<br>CCCC<br>
+<img src="./bemm_gen/share/FF_PARAM/FF_ETY/smiles.png" width="128px">
+</div>
+<div style="width: 164px; display: inline-block">
+<br>GUA<br>(Guanidino group)<br>CCNC(=N)N<br>
+<img src="./bemm_gen/share/FF_PARAM/FF_GUA/smiles.png" width="128px">
+</div>
+<div style="width: 164px; display: inline-block">
+<br>HYD<br>(Hydroxy group)<br>CCO<br>
+<img src="./bemm_gen/share/FF_PARAM/FF_HYD/smiles.png" width="128px">
 </div>
 <div style="width: 164px; display: inline-block">
 <br>MTI<br>(Methionine group)<br>CCSC<br>
 <img src="./bemm_gen/share/FF_PARAM/FF_MTI/smiles.png" width="128px">
 </div>
 <div style="width: 164px; display: inline-block">
-<br>GUA<br>(Guanidino group)<br>CCNC(N)N<br>
-<img src="./bemm_gen/share/FF_PARAM/FF_GUA/smiles.png" width="128px">
+<br>MTO<br>(Methoxy group)<br>CCOC<br>
+<img src="./bemm_gen/share/FF_PARAM/FF_MTO/smiles.png" width="128px">
+</div>
+<div style="width: 164px; display: inline-block">
+<br>MTY<br>(Methyl group)<br>CCC<br>
+<img src="./bemm_gen/share/FF_PARAM/FF_MTY/smiles.png" width="128px">
+</div>
+<div style="width: 164px; display: inline-block">
+<br>NEG<br>(Negatively charged carboxy group)<br>CCC(:O):O<br>
+<img src="./bemm_gen/share/FF_PARAM/FF_NEG/smiles.png" width="128px">
+</div>
+<div style="width: 164px; display: inline-block">
+<br>POS<br>(Positively charged amino group)<br>CCC[NH3+]<br>
+<img src="./bemm_gen/share/FF_PARAM/FF_POS/smiles.png" width="128px">
+</div>
+<div style="width: 164px; display: inline-block">
+<br>THE<br>(Thiolate group)<br>CC[S-]<br>
+<img src="./bemm_gen/share/FF_PARAM/FF_THE/smiles.png" width="128px">
+</div>
+<div style="width: 164px; display: inline-block">
+<br>THI<br>(Thiol group)<br>CCS<br>
+<img src="./bemm_gen/share/FF_PARAM/FF_THI/smiles.png" width="128px">
 </div>
 </div>
 
