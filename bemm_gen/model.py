@@ -42,7 +42,8 @@ def build_sphere(args: argparse.Namespace):
     output=""
     atom_index=1
     res_num=1
-    fr_order=functional_residue.get_order_inlayer(fr_list,fr_ratio*100*num_points)
+    fr_number_inlayer=functional_residue.get_number_inlayer(fr_ratio,num_points)
+    fr_order=functional_residue.get_order_inlayer(fr_list,fr_number_inlayer)
     sphere_center=np.mean(sphere_points, axis=0)
     for current_sphere_point,fr_name in zip(sphere_points,fr_order):
         fr_atom_name=fr_atom_name_dict[fr_name]
@@ -166,13 +167,20 @@ class sphere:
 class functional_residue:
     #1層に含まれるfunctional_residueの数を決める
     def get_number_inlayer(fr_ratio,num_points):
-        fg_number = fr_ratio*100*num_points//num_points
-        if sum(fg_number) != num_points:
-            for i in np.argsort(np.remainder(fr_ratio*100*num_points,num_points))[::-1]:
-                fg_number[i] += 1
-                if sum(fg_number) == num_points:
-                    break
-        return np.array(fg_number)
+        scale_factor = num_points / sum(fr_ratio)
+        scaled_list = [ x*scale_factor for x in fr_ratio]
+        rounded_list = [ round(x) for x in scaled_list ]
+        difference = num_points - sum(rounded_list)
+        if difference != 0:
+            for _ in range(abs(difference)):
+                if difference > 0:
+                    max_index = scaled_list.index(max(scaled_list, key=lambda x: x - round(x)))
+                    rounded_list[max_index] += 1
+                elif difference < 0:
+                    min_index = scaled_list.index(min(scaled_list, key=lambda x: round(x) - x))
+                    rounded_list[min_index] -= 1
+
+        return np.array(rounded_list)
     
     #１層に含まれるfunctional_residueの順番をrandamに決める
     def get_order_inlayer(fr_list,fg_number_inlayer):
