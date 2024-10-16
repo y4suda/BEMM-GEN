@@ -42,7 +42,7 @@ bemm-gen makeparam --smiles CCC --resname MTY --description "Methyl group"
 **Please see the documentation [English](https://github.com/y4suda/BEMM-GEN/blob/main/tutorial_en.md) / [日本語](https://github.com/y4suda/BEMM-GEN/blob/main/tutorial_ja.md)**
 
 ## Cite Us
-T. Yasuda, R. Morita, Y. Shigeta and R. Harada. "BEMM-GEN: A Toolkit for Generating a Biomolecular Environment-Mimicking Model for Molecular Dynamics Simulation", *XXXX*,2024,XXXX,[doi](https://XXX)
+T. Yasuda, R. Morita, Y. Shigeta and R. Harada. "BEMM-GEN: A Toolkit for Generating a Biomolecular Environment-Mimicking Model for Molecular Dynamics Simulation", *J.Chem.Inf.Model*, 64(19), 7184-7188, 2024, [https://doi.org/10.1021/acs.jcim.4c01467](https://doi.org/10.1021/acs.jcim.4c01467)
 
 ## Authors
 Takunori Yasuda, Doctoral Program in Biology, University of Tsukuba  
